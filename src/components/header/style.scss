@@ -107,6 +107,20 @@
     }
   }
 }
+@media screen and (min-width: 1440px) {
+  .header {
+    &-top {
+      &__container {
+        width: 65vw;
+      }
+    }
+    &-bottom {
+      &__container {
+        width: 65vw;
+      }
+    }
+  }
+}
 @media screen and (max-width: 1024px) {
   .header {
     &-top {

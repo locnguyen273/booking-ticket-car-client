@@ -1,0 +1,22 @@
+.pop-des {
+  max-width: 936px;
+  width: 100%;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  &__title {
+    font-weight: 700 !important;
+    font-size: min(5vw,30px) !important;
+    letter-spacing: 4.09px;
+    color: #ef5222 !important;
+    text-align: center;
+    margin-bottom: 0 !important;
+  }
+  &__intro {
+    opacity: .7;
+    font-size: min(22px,3.5vw);
+    letter-spacing: .5px;
+    text-align: center;
+    color: #004a2f;
+  }
+}
