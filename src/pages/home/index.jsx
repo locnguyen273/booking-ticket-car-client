@@ -5,6 +5,7 @@ import SlickSwiper from '../../components/slickSwiper';
 import PopularRoute from '../../components/popularRoute';
 import Quantity from './../../components/quantity/index';
 import PopularDestination from '../../components/popularDestination';
+import UpdateNews from './../../components/updateNews/index';
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <PopularRoute />
       <Quantity />
       <PopularDestination />
+      <UpdateNews />
     </>
   )
 }

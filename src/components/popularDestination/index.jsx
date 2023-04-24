@@ -1,16 +1,12 @@
 import React from "react";
 import { Typography } from "antd";
-import Slider from "react-slick";
 import "./style.scss";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { A11y, Navigation, Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const PopularDestination = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1
-  };
   return (
     <div className="pop-des">
       <Typography.Title level={5} className="pop-des__title">
@@ -21,39 +17,234 @@ const PopularDestination = () => {
       </p>
 
       <div className="pop-des__list">
-        <Slider {...settings}>
-          <div 
-            className="pop-des__item" 
-            style={{ backgroundImage: `url("https://futabus.vn/_nuxt/img/commonDest_item10.fe3a059.png")` }}>
+        <Swiper
+          navigation={true}
+          modules={[Navigation, Pagination, A11y]}
+          spaceBetween={60}
+          slidesPerView="auto"
+        >
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
             <div className="pop-des__item__content">
               <p>
                 <i className="fas fa-map-marker-alt"></i>
                 TP. Hồ Chí Minh
               </p>
               <Typography.Title level={5} className="">
-                Sài Gòn
+                Sài gòn
               </Typography.Title>
             </div>
-          </div>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-        </Slider>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide
+            className="pop-des__item"
+            style={{
+              backgroundImage:
+                'url("https://futabus.vn/_nuxt/img/commonDest_item11.7baf682.png")',
+            }}
+          >
+            <div className="pop-des__item__content">
+              <p>
+                <i className="fas fa-map-marker-alt"></i>
+                TP. Hồ Chí Minh
+              </p>
+              <Typography.Title level={5} className="">
+                Sài gòn
+              </Typography.Title>
+            </div>
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
   );
