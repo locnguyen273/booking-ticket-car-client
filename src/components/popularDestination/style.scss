@@ -6,17 +6,58 @@
   margin-bottom: 30px;
   &__title {
     font-weight: 700 !important;
-    font-size: min(5vw,30px) !important;
+    font-size: min(5vw, 30px) !important;
     letter-spacing: 4.09px;
     color: #ef5222 !important;
     text-align: center;
     margin-bottom: 0 !important;
   }
   &__intro {
-    opacity: .7;
-    font-size: min(22px,3.5vw);
-    letter-spacing: .5px;
+    opacity: 0.7;
+    font-size: min(22px, 3.5vw);
+    letter-spacing: 0.5px;
     text-align: center;
     color: #004a2f;
+  }
+  &__list {
+    margin: 30px 0 20px;
+    .slick-slide {
+      width: 210px !important;
+      margin: 0 10px 0 0;
+    }
+  }
+  &__item {
+    max-width: 210px;
+    height: 265px;
+    border-radius: 8px;
+    overflow: hidden;
+    // position: relative;
+    &__content {
+      // position: absolute;
+      // top: 0;
+      // left: 0;
+      // right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: end;
+      height: 265px;
+      i {
+        margin: 0 5px 0 0;
+      }
+      p {
+        text-shadow: 0 0 2px #000;
+        font-size: 15px;
+        letter-spacing: 0.34px;
+        color: #fff;
+      }
+      h5 {
+        font-size: 26px;
+        font-weight: 500;
+        color: #fff;
+        margin: 0 0 8px;
+        text-shadow: 0 0 2px #000;
+      }
+    }
   }
 }
