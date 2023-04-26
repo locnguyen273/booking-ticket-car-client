@@ -8,6 +8,9 @@ import UserTemplate from "./templates/user";
 import Home from "./pages/home";
 import News from "./pages/news";
 import Contact from "./pages/contact";
+import AboutUs from "./pages/aboutUs";
+import Login from "./pages/login";
+import Register from './pages/register/index';
 
 function App() {
   return (
@@ -20,7 +23,10 @@ function App() {
             <Route path="/tin-tuc" element={<News />} />
             <Route path="/tuyen-dung" element={<Home />} />
             <Route path="/lien-he" element={<Contact />} />
-            <Route path="/ve-chung-toi" element={<Home />} />
+            <Route path="/ve-chung-toi" element={<AboutUs />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Home />} />
           </Route>
         </Routes>
       </HistoryRouter>
