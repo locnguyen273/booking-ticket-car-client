@@ -1,9 +1,8 @@
 import React from "react"
 import { Form, Button, Input, Checkbox } from "antd";
 import "./style.scss";
-import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
   const onFinish = values => {
     console.log('Success:', values);
   };
@@ -13,19 +12,19 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-box">
+    <div className="register-page">
+      <div className="register-box">
         <div className="illustration-wrapper">
-          <img src="https://phongcachviettravel.vn/wp-content/uploads/2022/04/TP-HCM-PHU-QUOC-3N2D-he-2023-web.jpg" alt="Login" />
+          <img src="https://phongcachviettravel.vn/wp-content/uploads/2022/04/TP-HCM-PHU-QUOC-3N2D-he-2023-web.jpg" alt="register" />
         </div>
         <Form
-          name="login-form"
+          name="register-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
           <p className="form-title">Welcome back</p>
-          <p>Login to the Dashboard</p>
+          <p>Register to the Dashboard</p>
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
@@ -49,10 +48,9 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              LOGIN
+            <Button type="primary" htmlType="submit" className="register-form-button">
+              Đăng ký
             </Button>
-            <p>Bạn mới biết đến Mika? <Link to="/register">Đăng ký</Link></p>
           </Form.Item>
         </Form>
       </div>
@@ -60,4 +58,4 @@ const Login = () => {
   );
 };
 
-export default Login
+export default Register

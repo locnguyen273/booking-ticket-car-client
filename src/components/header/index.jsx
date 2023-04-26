@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MenuData } from "../../utils/menuData";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Image, Button, Drawer } from "antd";
 import facebookLogo from "../../assets/images/facebook.png";
 import youtubeLogo from "../../assets/images/youtube.png";
@@ -9,6 +9,7 @@ import "./style.scss"
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [active, setActive] = useState(location.pathname);
   const [open, setOpen] = useState(false);
   const { isMobile } = useDeviceDetect();
@@ -47,6 +48,7 @@ const Header = () => {
               />
               <Button
                 className="header-top__right--login"
+                onClick={() => navigate("/login")}
               >
                 <i className="fas fa-user-circle"></i>
                 Đăng nhập
