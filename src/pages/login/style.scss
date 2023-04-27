@@ -32,7 +32,8 @@
   font-size: 42px;
   font-weight: bold;
   line-height: 1;
-  margin-bottom: 0;
+  margin-bottom: 10px;
+  text-align: center;
 }
 #login-form .ant-form-item-label > label.ant-form-item-required::before {
   display: none;
@@ -115,7 +116,7 @@
   font-size: 42px;
   font-weight: bold;
   line-height: 1;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 #login-form .ant-form-item-label > label.ant-form-item-required::before {
   display: none;

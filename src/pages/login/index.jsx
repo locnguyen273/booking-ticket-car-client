@@ -24,8 +24,7 @@ const Login = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <p className="form-title">Welcome back</p>
-          <p>Login to the Dashboard</p>
+          <p className="form-title">Đăng nhập</p>
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
@@ -43,16 +42,11 @@ const Login = () => {
               placeholder="Password"
             />
           </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              LOGIN
+              Đăng nhập
             </Button>
-            <p>Bạn mới biết đến Mika? <Link to="/register">Đăng ký</Link></p>
+            <p style={{ textAlign: "center", margin: "20px 0 0"}}>Bạn mới biết đến Mika? <Link to="/register">Đăng ký</Link></p>
           </Form.Item>
         </Form>
       </div>
