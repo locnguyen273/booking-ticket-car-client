@@ -88,6 +88,17 @@
   @media screen and (max-width: 1440px){
     min-height: 85vh;
   }
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    p {
+      margin: 0;
+    }
+    a {
+      color: #ef5222;
+    }
+  }
 }
 .login-box {
   display: flex;

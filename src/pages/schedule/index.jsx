@@ -99,7 +99,6 @@ const Schedule = () => {
           Tìm kiếm
         </Button>
       </div>
-      Schedule
     </div>
   );
 };

@@ -4,3 +4,15 @@
   margin: auto;
   margin-top: 40px;
 }
+
+@media screen and (max-width: 768px) {
+  .booking {
+    max-width: 700px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .booking {
+    max-width: 400px;
+  }
+}
