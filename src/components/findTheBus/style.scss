@@ -51,6 +51,9 @@
     text-align: center;
     color: #fff;
     padding: 20px 16px;
+    &:hover {
+      color: #fff !important;
+    }
     .fa-search {
       color: #fff;
       font-size: 14px;

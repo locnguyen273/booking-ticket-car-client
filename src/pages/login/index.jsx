@@ -1,15 +1,49 @@
-import React from "react"
-import { Form, Button, Input, Checkbox } from "antd";
+import React, { useState } from "react"
+import { Form, Button, Input, Modal } from "antd";
 import "./style.scss";
 import { Link } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { CallApiLoginUser } from "../../redux/reducers/userReducer";
+import { CallApiForgotPasswordUser } from './../../redux/reducers/userReducer';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleChangeModal = (event) => {
+    const name = event.target.name;
+    setForgotPassword((prev) => ({
+      ...prev,
+      [name]: event.target.value
+    }));
+  }
+
   const onFinish = values => {
-    console.log('Success:', values);
+    dispatch(CallApiLoginUser(values));
   };
 
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
+  };
+
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = () => {
+    setConfirmLoading(true);
+    dispatch(CallApiForgotPasswordUser(forgotPassword));
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+  const handleCancel = () => {
+    setOpen(false);
   };
 
   return (
@@ -24,8 +58,7 @@ const Login = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <p className="form-title">Welcome back</p>
-          <p>Login to the Dashboard</p>
+          <p className="form-title">Đăng nhập</p>
           <Form.Item
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
@@ -43,19 +76,45 @@ const Login = () => {
               placeholder="Password"
             />
           </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              LOGIN
+              Đăng nhập
             </Button>
-            <p>Bạn mới biết đến Mika? <Link to="/register">Đăng ký</Link></p>
+            <div className="login-page__bottom">
+              <Link onClick={showModal}>Quên mật khẩu?</Link>
+              <p>Bạn mới biết đến Mika? <Link to="/register">Đăng ký</Link></p>
+            </div>
           </Form.Item>
         </Form>
       </div>
+      <Modal
+        title="Quên mật khẩu"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <div className="modal-forgot">
+          <div>
+            <p>Email: </p>
+            <Input 
+              placeholder="Email" 
+              value={forgotPassword.email} 
+              name="email" 
+              onChange={handleChangeModal}
+            />
+          </div>
+          <div>
+            <p>Mật khẩu: </p>
+            <Input.Password 
+              placeholder="Password" 
+              value={forgotPassword.password} 
+              name="password"
+              onChange={handleChangeModal}
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
