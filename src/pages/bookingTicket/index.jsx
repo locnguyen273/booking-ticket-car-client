@@ -2,14 +2,20 @@ import { Steps } from "antd";
 import { useState } from "react";
 import "./style.scss";
 import RouteConfirmation from './../../components/steps/RouteConfirmation';
+import InformationCustomer from './../../components/steps/InformationCustomer';
+import Payment from './../../components/steps/Payment';
+import { useDispatch } from "react-redux";
+import { CallApiGetScheduleByTicketId } from './../../redux/reducers/scheduleReducer';
+import { useSelector } from "react-redux";
 
 const BookingTicket = () => {
+  const dispatch = useDispatch();
+  const scheduleById = useSelector(
+    (state) => state.ScheduleReducer.scheduleById
+  );
   const [current, setCurrent] = useState(1);
   const [showChair, setShowChair] = useState(false);
-  const [chooseTicket, setChooseTicket] = useState({
-    quantity: 0,
-    listChair: []
-  });
+  const [booked, setBooked] = useState([]);
 
   const onChange = (value) => {
     setCurrent(value);
@@ -17,17 +23,21 @@ const BookingTicket = () => {
   const handleChangeFilterBooking = (value) => {
     console.log(`selected ${value}`);
   };
-  const onChangeChoose = () => {
-    if (showChair) {
-      setShowChair(false);
-    } else {
+  const onChangeChoose = (ticketId) => {
+    dispatch(CallApiGetScheduleByTicketId(ticketId));
+    if (!showChair && scheduleById.id === ticketId) {
       setShowChair(true);
+    } else {
+      setShowChair(false);
     }
   };
-  const handleSelectChairOnCar = () => {
-
+  const handleContinueStep = () => {
+    setCurrent(2);
   }
 
+  const handleContinueStepInfo = () => {
+    setCurrent(3);
+  }
 
   const handleRenderSteps = () => {
     if (current === 1) {
@@ -35,13 +45,17 @@ const BookingTicket = () => {
         handleChangeFilterBooking={handleChangeFilterBooking}
         onChangeChoose={onChangeChoose}
         showChair={showChair}
-        chooseTicket={chooseTicket}
-        setChooseTicket={setChooseTicket}
+        booked={booked}
+        setBooked={setBooked}
+        handleContinueStep={handleContinueStep}
       />
     } else if (current === 2) {
-      return <div>current 2</div>
+      return <InformationCustomer
+        handleContinueStepInfo={handleContinueStepInfo}
+      />
     } else {
-      return <div>current 3 </div>
+      return <Payment
+      />
     }
   }
 

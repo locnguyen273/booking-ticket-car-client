@@ -16,10 +16,11 @@ import Schedule from "./pages/schedule";
 import BookingTicket from "./pages/bookingTicket/index";
 import Profile from "./pages/profile";
 import ProtectedRoute from "./templates/protectedRoute/index";
-import { getStringLocal } from "./utils/config";
+import HireDetail from "./pages/hireDetail";
+import ForgotPassword from "./pages/forgotPassword";
+import HistoryOrder from "./pages/historyOrder";
 
 function App() {
-  const user = getStringLocal("token");
   return (
     <div>
       <HistoryRouter history={history}>
@@ -29,12 +30,13 @@ function App() {
             <Route path="/lich-trinh" element={<Schedule />} />
             <Route path="/tin-tuc" element={<News />} />
             <Route path="/tuyen-dung" element={<Hire />} />
+            <Route path="/tuyen-dung/:id" element={<HireDetail />} />
             <Route path="/lien-he" element={<Contact />} />
             <Route path="/ve-chung-toi" element={<AboutUs />} />
             <Route
               path="/dat-ve-xe"
               element={
-                <ProtectedRoute user={user}>
+                <ProtectedRoute>
                   <BookingTicket />
                 </ProtectedRoute>
               }
@@ -42,8 +44,16 @@ function App() {
             <Route
               path="/profile"
               element={
-                <ProtectedRoute user={user}>
+                <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/lich-su-dat-ve"
+              element={
+                <ProtectedRoute>
+                  <HistoryOrder />
                 </ProtectedRoute>
               }
             />
@@ -51,6 +61,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Home />} />
           </Route>
+
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </HistoryRouter>
     </div>

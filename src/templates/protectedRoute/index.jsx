@@ -1,6 +1,8 @@
 import { Navigate } from "react-router-dom";
+import { getStringLocal } from "../../utils/config"
 
-const ProtectedRoute = ({ user, children }) => {
+const ProtectedRoute = ({ children }) => {
+  const user = getStringLocal("token");
   if (!user) {
     return <Navigate to="/login" replace />;
   }

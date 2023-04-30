@@ -58,10 +58,10 @@ export const patch = (url, data) => {
     responseType: "json",
     responseEncoding: "utf8",
     headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      "Accept": "application/json",
+      "Content-Type": "application/json"
     },
-    // timeout: 1000,
+    timeout: 1000,
     data: JSON.stringify(data),
   }).catch(
     (err) =>

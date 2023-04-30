@@ -11,17 +11,17 @@
     border-radius: 8px;
     border: 1px solid #dde2e8;
     margin: 20px 0;
+    &--header {
+      font-size: 32px;
+      font-weight: 700;
+      width: 210px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     &__bottom {
       display: flex;
       justify-content: space-between;
-      &--header {
-        font-size: 24px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 160px;
-      }
       &--center {
         color: #111;
         margin: 8px 0 16px;
@@ -70,8 +70,8 @@
   }
   &__list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     &--chose,
     &--empty {
       width: 70px;
@@ -96,9 +96,10 @@
   }
   &__note {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
     column-gap: 5px;
-    max-width: 345px;
+    max-width: 200px;
     margin: auto;
     margin-top: 30px;
     &__item {
@@ -126,4 +127,170 @@
       }
     }
   }
+  &__group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+  }
+  &__bottom {
+    p {
+      text-align: center;
+      margin: 0 0 10px;
+    }
+  }
+  &__payment {
+    margin: 20px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__left {
+      p {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+        font-weight: 500;
+        span {
+          margin: 0 0 0 5px;
+        }
+      }
+    }
+    &__right {
+      background: #f15a24;
+      width: 150px;
+      height: 40px;
+      font-size: 18px;
+      color: #fff;
+      border: none;
+      &:hover {
+        color: #fff !important;
+      }
+    }
+  }
+}
+
+.info-customer {
+  max-width: 35vw;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 1px solid #33333345;
+  border-radius: 16px;
+  padding: 20px 30px;
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
+    rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  &__title {
+    text-align: center;
+    color: #f15a24 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 24px !important;
+  }
+  &__list {
+    padding: 10px 20px;
+  }
+  &__item {
+    margin: 0 0 10px;
+    p {
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+  }
+  &__continue {
+    background-color: #f15a24;
+    width: 100%;
+    height: 45px;
+    border-radius: 35px;
+    margin: 10px 0 0;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    &:hover {
+      color: #fff !important;
+    }
+  }
+}
+
+.payment {
+  max-width: 936px;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 1px solid lightgray;
+  border-radius: 16px;
+  &__title {
+    text-transform: uppercase;
+    background-color: #f15a24;
+    text-align: center;
+    padding: 10px;
+    color: #fff !important;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    margin: 0 !important;
+  }
+  &__customer {
+    &__info {
+      padding: 10px 0 10px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      background: #d3d3d35e;
+    }
+    &__item {
+      display: flex;
+      padding: 5px 0 5px 20px;
+      h5 {
+        width: 120px;
+      }
+    }
+  }
+  &__routing {
+    &__info {
+      padding: 10px 0 10px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      background: #d3d3d35e;
+    }
+    &__item {
+      display: flex;
+      padding: 5px 0 5px 20px;
+      h5 {
+        width: 120px;
+      }
+    }
+    &__pay {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      padding: 5px 20px 5px 0;
+      background: rgba(211, 211, 211, 0.368627451);
+      border-bottom-right-radius: 16px;
+      border-bottom-left-radius: 16px;
+      h5 {
+        text-transform: uppercase;
+        font-size: 28px;
+        margin: 0 !important;
+      }
+      p {
+        margin: 0 0 0 10px;
+        font-size: 28px;
+        font-weight: 600;
+        color: #f15a24;
+      }
+    }
+  }
+  &__btn-submit {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    button {
+      background-color: #f15a24;
+      color: #fff;
+      width: 280px;
+      height: 50px;
+      font-size: 18px;
+      border: none;
+      border-radius: 40px;
+      &:hover {
+        color: #fff !important;
+      }
+    }
+  } 
 }

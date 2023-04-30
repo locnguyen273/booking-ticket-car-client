@@ -7,6 +7,7 @@ import { saveStringLocal } from "../../utils/config";
 const initialState = {
   userLogin: {},
   userProfile: {},
+  orderHistory: [],
 };
 
 const UserReducer = createSlice({
@@ -22,10 +23,18 @@ const UserReducer = createSlice({
     userProfileReducer: (state, { type, payload }) => {
       state.userProfile = payload;
     },
+    userOrderHistory: (state, { type, payload }) => {
+      state.orderHistory = payload;
+    },
   },
 });
 
-export const { userLoginReducer, userLogoutReducer, userProfileReducer } =
+export const { 
+  userLoginReducer, 
+  userLogoutReducer, 
+  userProfileReducer,
+  userOrderHistory,
+} =
   UserReducer.actions;
 
 export default UserReducer.reducer;
@@ -79,18 +88,18 @@ export const CallApiUserProfileReducer = (userId) => async (dispatch) => {
   }
 };
 
-export const CallApiForgotPasswordUser = () => async () => {
+export const CallApiForgotPasswordUser = (userUpdate) => async () => {
   try {
-    const res = await UserServices.ForgotPasswordUser();
+    const res = await UserServices.ForgotPasswordUser(userUpdate);
     if (res) {
       openNotificationWithIcon(`success`, `Cập nhật mật khẩu thành công !`);
+      history.push("/");
     } else {
       openNotificationWithIcon(
         `error`,
         `Cập nhật mật khẩu thất bại.Vui lòng thử lại sau !`
       );
     }
-    console.log(res);
   } catch (err) {
     openNotificationWithIcon(
       `error`,
@@ -99,3 +108,27 @@ export const CallApiForgotPasswordUser = () => async () => {
     console.log(err);
   }
 };
+
+export const CallApiSendMailForgotPassword = (mail) => async () => {
+  try {
+    const result = await UserServices.SendMailForgotPassword(mail);
+    if(result.status === 200) {
+      openNotificationWithIcon(`success`, `Vui lòng kiểm tra email để đặt lại mật khẩu !`);
+    }
+  } catch (err) {
+    openNotificationWithIcon(
+      `error`,
+      `Email sai hoặc không tồn tại. Vui lòng thử lại sau !`
+    );
+    console.log(err);
+  }
+}
+
+export const CallApiGetOrderHistory = () => async (dispatch) => {
+  try {
+    const result = await UserServices.GetOrderHistory();
+    dispatch(userOrderHistory(result.data));
+  } catch (err) {
+    console.log(err);
+  }
+}
