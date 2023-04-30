@@ -16,8 +16,16 @@ const UserProfile = (userId) => {
   return BaseApi.get(API_URL_DOMAIN + `/user/${userId}`);
 }
 
-const ForgotPasswordUser = () => {
-  return BaseApi.patch(API_URL_DOMAIN + "/user/forgot-password")
+const ForgotPasswordUser = (userUpdate) => {
+  return BaseApi.patch(API_URL_DOMAIN + "/user/forgot-password", userUpdate);
+}
+
+const SendMailForgotPassword = (mail) => {
+  return BaseApi.post(API_URL_DOMAIN + "/mailer/forgot-password", { to: mail });
+}
+
+const GetOrderHistory = () => {
+  return BaseApi.get(API_URL_DOMAIN + "/ticket/user");
 }
 
 export const UserServices = {
@@ -26,4 +34,6 @@ export const UserServices = {
   LoginUser,
   UserProfile,
   ForgotPasswordUser,
+  SendMailForgotPassword,
+  GetOrderHistory,
 }

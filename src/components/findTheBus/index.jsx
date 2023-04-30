@@ -1,82 +1,119 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { Button, Radio, Select, Typography, DatePicker } from "antd";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { 
+  CallApiListScheduleMoreThanCurrentDate,
+  CallApiListScheduleMoreThanCurrentDateFiltered,
+} from "./../../redux/reducers/scheduleReducer";
+import dayjs from "dayjs";
+import moment from "moment";
 
 const { Option } = Select;
 
 const FindTheBus = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(CallApiListScheduleMoreThanCurrentDate());
+  },[]);
   const [chooseBusGo, setChooseBusGo] = useState("");
   const [chooseBusArrive, setChooseBusArrive] = useState("");
   const [dayBusGo, setDayBusGo] = useState("");
   const [dayBusArrive, setDayBusArrive] = useState("");
-  const listAddressBus = useSelector(state => state.AddressReducer.listAddress);
-
+  const [handleRadio, setHandleRadio] = useState({
+    oneWay: true,
+    twoWay: false,
+  });
+  const listAddressBus = useSelector(
+    (state) => state.AddressReducer.listAddress
+  );
+  const listScheduleMoreThanCurrentDate = useSelector(
+    (state) => state.ScheduleReducer.listScheduleMoreThanCurrentDate
+  );
+  const scheduleMoreThanCurrentDateFiltered =
+    listScheduleMoreThanCurrentDate.filter(
+      (item) => moment.utc(item.startTime).format('DD/MM/YYYY')  === dayBusGo
+    );
+  const customFormat = (value) => `${value.format("DD/MM/YYYY")}`;
   const handleFindBus = () => {
     navigate("/dat-ve-xe");
-    const data = {
-      chooseBusGo,
-      chooseBusArrive,
-      dayBusGo,
-      dayBusArrive
-    }
-    console.log("data", data);
-  }
+    dispatch(CallApiListScheduleMoreThanCurrentDateFiltered(scheduleMoreThanCurrentDateFiltered));
+  };
 
+  const handleChangeRadio = () => {
+    if(handleRadio.oneWay) {
+      setHandleRadio({
+        oneWay:false,
+        twoWay: true
+      })
+    } else {
+      setHandleRadio({
+        oneWay:true,
+        twoWay: false
+      })
+    }
+  };
 
   return (
     <div className="find-bus">
       <div className="find-bus__top">
-        <Radio defaultChecked>Một chiều</Radio>
-        <Radio defaultChecked={false}>Khứ hồi</Radio>
+        <Radio defaultChecked checked={handleRadio.oneWay} onChange={handleChangeRadio}>Một chiều</Radio>
+        <Radio defaultChecked={false} checked={handleRadio.twoWay} onChange={handleChangeRadio}>Khứ hồi</Radio>
       </div>
       <div className="find-bus__list">
         <div className="find-bus__booking">
           <div className="find-bus__booking--item">
-            <Typography.Title
-              level={5}
-            >
-              Điểm đi
-            </Typography.Title>
+            <Typography.Title level={5}>Điểm đi</Typography.Title>
 
             <Select onChange={(value) => setChooseBusGo(value)}>
-              {listAddressBus.length > 0 && listAddressBus.map(item => {
-                return <Option key={item.id} value={item.name}>{item.name}</Option>
-              })}
+              {listAddressBus.length > 0 &&
+                listAddressBus.map((item) => {
+                  return (
+                    <Option key={item.id} value={item.name}>
+                      {item.name}
+                    </Option>
+                  );
+                })}
             </Select>
           </div>
           <div className="find-bus__booking--item">
-            <Typography.Title
-              level={5}
-            >
-              Điểm đến
-            </Typography.Title>
+            <Typography.Title level={5}>Điểm đến</Typography.Title>
             <Select onChange={(value) => setChooseBusArrive(value)}>
-              {listAddressBus.length > 0 && listAddressBus.map(item => {
-                return <Option key={item.id} value={item.name}>{item.name}</Option>
-              })}
+              {listAddressBus.length > 0 &&
+                listAddressBus.map((item) => {
+                  return (
+                    <Option key={item.id} value={item.name}>
+                      {item.name}
+                    </Option>
+                  );
+                })}
             </Select>
           </div>
         </div>
 
         <div className="find-bus__group">
           <div className="find-bus__group--item">
-            <Typography.Title
-              level={5}
-            >
-              Ngày đi
-            </Typography.Title>
-            <DatePicker size="middle" onChange={(event) => setDayBusGo(event.$d)} />
+            <Typography.Title level={5}>Ngày đi</Typography.Title>
+            <DatePicker
+              style={{ width: "100%" }}
+              defaultValue={dayjs("2023/04/29", "YYYY/MM/DD")}
+              format={customFormat}
+              onChange={(d, dateString) => setDayBusGo(dateString)}
+            />
           </div>
           <div className="find-bus__group--item">
-            <Typography.Title
-              level={5}
-            >
-              Ngày về
-            </Typography.Title>
-            <DatePicker size="middle" onChange={(event) => setDayBusArrive(event.$d)} />
+            <Typography.Title level={5}>Ngày về</Typography.Title>
+            <DatePicker
+              disabled={handleRadio.oneWay}
+              style={{ width: "100%" }}
+              defaultValue={dayjs("2023/04/29", "YYYY/MM/DD")}
+              format={customFormat}
+              onChange={(d, dateString) => setDayBusArrive(dateString)}
+            />
           </div>
         </div>
       </div>

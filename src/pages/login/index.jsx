@@ -4,24 +4,13 @@ import "./style.scss";
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { CallApiLoginUser } from "../../redux/reducers/userReducer";
-import { CallApiForgotPasswordUser } from './../../redux/reducers/userReducer';
+import { CallApiSendMailForgotPassword } from './../../redux/reducers/userReducer';
 
 const Login = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [forgotPassword, setForgotPassword] = useState({
-    email: "",
-    password: ""
-  });
-
-  const handleChangeModal = (event) => {
-    const name = event.target.name;
-    setForgotPassword((prev) => ({
-      ...prev,
-      [name]: event.target.value
-    }));
-  }
+  const [forgotPassword, setForgotPassword] = useState("");
 
   const onFinish = values => {
     dispatch(CallApiLoginUser(values));
@@ -36,7 +25,7 @@ const Login = () => {
   };
   const handleOk = () => {
     setConfirmLoading(true);
-    dispatch(CallApiForgotPasswordUser(forgotPassword));
+    dispatch(CallApiSendMailForgotPassword(forgotPassword));
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
@@ -96,21 +85,10 @@ const Login = () => {
       >
         <div className="modal-forgot">
           <div>
-            <p>Email: </p>
             <Input 
-              placeholder="Email" 
-              value={forgotPassword.email} 
-              name="email" 
-              onChange={handleChangeModal}
-            />
-          </div>
-          <div>
-            <p>Mật khẩu: </p>
-            <Input.Password 
-              placeholder="Password" 
-              value={forgotPassword.password} 
-              name="password"
-              onChange={handleChangeModal}
+              placeholder="Vui lòng nhập email để khôi phục mật khẩu" 
+              value={forgotPassword}
+              onChange={(e) => setForgotPassword(e.target.value)}
             />
           </div>
         </div>

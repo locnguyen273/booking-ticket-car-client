@@ -7,9 +7,8 @@ import youtubeLogo from "../../assets/images/youtube.png";
 import useDeviceDetect from "./../../hooks/useDeviceDetect";
 import "./style.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { CallApiLogoutUser, CallApiUserProfileReducer } from './../../redux/reducers/userReducer';
-import { removeLocal, getStringLocal } from "../../utils/config";
-import jwt_decode from "jwt-decode";
+import { CallApiLogoutUser, CallApiUserProfileReducer, CallApiGetOrderHistory } from './../../redux/reducers/userReducer';
+import { removeLocal } from "../../utils/config";
 import logo from "../../assets/images/logo.png"
 
 const Header = () => {
@@ -22,7 +21,9 @@ const Header = () => {
   const userInfo = useSelector((state) => state.UserReducer.userLogin);
   const items = [
     {
-      label: <Link>Lịch sử mua vé</Link>,
+      label: <Link to={"/lich-su-dat-ve"} onClick={() => {
+        dispatch(CallApiGetOrderHistory());
+      }}>Lịch sử mua vé</Link>,
       key: "0",
     },
     {
@@ -97,13 +98,13 @@ const Header = () => {
       )}
       <div className="header-bottom">
         <div className="header-bottom__container">
-          <div className="header-bottom__left">
+          <Link className="header-bottom__left" to="/">
             <Image
               className="header-bottom__left--logo"
               src={logo}
               preview={false}
             />
-          </div>
+          </Link>
           {!isMobile ? (
             <div className="header-bottom__center">
               {MenuData.data.length > 0 &&
