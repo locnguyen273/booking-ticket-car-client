@@ -28,6 +28,10 @@ const GetOrderHistory = () => {
   return BaseApi.get(API_URL_DOMAIN + "/ticket/user");
 }
 
+const PaymentOrder = (dataOrder) => {
+  return BaseApi.post(API_URL_DOMAIN + "/payment/create_payment_url", dataOrder);
+}
+
 export const UserServices = {
   RegisterUser,
   SendEmailRegister,
@@ -36,4 +40,5 @@ export const UserServices = {
   ForgotPasswordUser,
   SendMailForgotPassword,
   GetOrderHistory,
+  PaymentOrder,
 }

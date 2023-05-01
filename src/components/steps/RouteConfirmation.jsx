@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { dataBooking } from "../../utils/menuData";
 import { Select, Typography, Button } from "antd";
@@ -10,10 +11,16 @@ const RouteConfirmation = (props) => {
     onChangeChoose,
     showChair,
     booked,
+    setBooked,
     handleContinueStep,
+    activeClass,
+    setActiveClass,
+    chairExist,
+    setChairExist,
+    totalPrice,
+    setTotalPrice,
   } = props;
   const [disableBtn, setDisableBtn] = useState(true);
-  const [activeClass, setActiveClass] = useState([]);
   const sheduleFiltered = useSelector(
     (state) => state.ScheduleReducer.scheduleMoreThanCurrentDateFiltered
   );
@@ -22,11 +29,40 @@ const RouteConfirmation = (props) => {
   );
 
   useEffect(() => {
-    if (booked.length > 0) setDisableBtn(false);
-  }, [booked]);
+    if (sheduleFiltered.length > 0 && chairExist.length === 0) {
+      scheduleById.tickets?.forEach(item => {
+        setChairExist((prev) => ([
+          ...prev,
+          item.seat.id
+        ]))
+      })
+    }
+  }, []);
 
-  const handleSelectChairOnCar = (data) => {
-    setActiveClass((prev) => [...prev, data]);
+  useEffect(() => {
+    if (booked.length > 0) {
+      setTotalPrice(booked.length * scheduleById.price);
+      setDisableBtn(false);
+    } else {
+      setTotalPrice(0);
+      setDisableBtn(true);
+    }
+  }, [booked]);
+  
+
+  const handleSelectChairOnCar = async (data) => {
+    if (activeClass.includes(data.id)) {
+      const newdata = await activeClass.filter(item => item !== data.id)
+      setActiveClass(newdata);
+    } else {
+      setActiveClass((prev) => [...prev, data.id]);
+    }
+    if (booked.includes(data)) {
+      const newdata = await booked.filter(item => item.id !== data.id)
+      setBooked(newdata);
+    } else {
+      setBooked((prev) => [...prev, data]);
+    }
   };
 
   return (
@@ -102,31 +138,25 @@ const RouteConfirmation = (props) => {
                       return (
                         <>
                           {ele.car.numberOfFloor === 1 ? (
-                            <div key={ele.id} className="route-chair__group">
+                            <div key={ele.id} className="route-chair__single">
                               <div className="route-chair__bottom">
-                                <p>Tầng dưới</p>
                                 <div className="route-chair__list">
                                   {ele.car.seats?.length > 0 &&
                                     ele.car.seats?.map((seat) => {
-                                      return activeClass?.map(item => {
-                                        if(item.id === seat.id) {
-                                          console.log(true);
-                                        }
                                       return (
                                         <button
                                           key={seat.id}
+                                          disabled={chairExist.includes(seat.id)}
                                           onClick={() =>
                                             handleSelectChairOnCar(seat)
                                           }
-                                          className={item.id === seat.id ? 'route-chair__list--chosing' : 'route-chair__list--empty'}
+                                          className={chairExist.includes(seat.id) ? "route-chair__list--chose" : activeClass.includes(seat.id) ? "route-chair__list--choosing" : "route-chair__list--empty"}
                                         >
                                           {seat.name}
                                         </button>
                                       );
                                     })
-
                                   }
-                                  )}
                                 </div>
                               </div>
                             </div>
@@ -138,15 +168,16 @@ const RouteConfirmation = (props) => {
                                   {ele.car.seats?.length > 0 &&
                                     ele.car.seats?.map((seat) => {
                                       return (
-                                        <div
+                                        <button
                                           key={seat.id}
+                                          disabled={chairExist.includes(seat.id)}
                                           onClick={() =>
                                             handleSelectChairOnCar(seat)
                                           }
-                                          className={`route-chair__list--empty`}
+                                          className={chairExist.includes(seat.id) ? "route-chair__list--chose" : activeClass.includes(seat.id) ? "route-chair__list--choosing" : "route-chair__list--empty"}
                                         >
                                           {seat.name}
-                                        </div>
+                                        </button>
                                       );
                                     })}
                                 </div>
@@ -157,15 +188,16 @@ const RouteConfirmation = (props) => {
                                   {ele.car.seats?.length > 0 &&
                                     ele.car.seats?.map((seat) => {
                                       return (
-                                        <div
+                                        <button
                                           key={seat.id}
+                                          disabled={chairExist.includes(seat.id)}
                                           onClick={() =>
                                             handleSelectChairOnCar(seat)
                                           }
-                                          className={`route-chair__list--empty`}
+                                          className={chairExist.includes(seat.id) ? "route-chair__list--chose" : activeClass.includes(seat.id) ? "route-chair__list--choosing" : "route-chair__list--empty"}
                                         >
                                           {seat.name}
-                                        </div>
+                                        </button>
                                       );
                                     })}
                                 </div>
@@ -177,10 +209,10 @@ const RouteConfirmation = (props) => {
                               <span className="route-chair__note__item--empty"></span>
                               <p>Trống</p>
                             </div>
-                            {/* <div className="route-chair__note__item">
-                    <span className="route-chair__note__item--choosing"></span>
-                    <p>Đang chọn</p>
-                  </div> */}
+                            <div className="route-chair__note__item">
+                              <span className="route-chair__note__item--choosing"></span>
+                              <p>Đang chọn</p>
+                            </div>
                             <div className="route-chair__note__item">
                               <span className="route-chair__note__item--chose"></span>
                               <p>Đã đặt</p>
@@ -196,7 +228,10 @@ const RouteConfirmation = (props) => {
                                   );
                                 })}
                               </p>
-                              <p>Tổng tiền: {booked.length * 210000} đ</p>
+                              <p>Tổng tiền: {totalPrice.toLocaleString("it-IT", {
+                                style: "currency",
+                                currency: "VND",
+                              })}</p>
                             </div>
                             <Button
                               className="route-chair__payment__right"

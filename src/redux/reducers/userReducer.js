@@ -132,3 +132,12 @@ export const CallApiGetOrderHistory = () => async (dispatch) => {
     console.log(err);
   }
 }
+
+export const CallApiPaymentAction = (dataOrder) => async (dispatch) => {
+  try {
+    const result = await UserServices.PaymentOrder(dataOrder);
+    console.log(result.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
