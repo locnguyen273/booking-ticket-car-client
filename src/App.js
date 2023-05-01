@@ -19,6 +19,16 @@ import ProtectedRoute from "./templates/protectedRoute/index";
 import HireDetail from "./pages/hireDetail";
 import ForgotPassword from "./pages/forgotPassword";
 import HistoryOrder from "./pages/historyOrder";
+import AdminTemplate from "./templates/admin";
+import ManageCar from "./pages/Admin/ManageCar/index";
+import ManageTicket from "./pages/Admin/ManageTicket/index";
+import ManageBusStation from "./pages/Admin/ManageBusStation";
+import ManageBusInformation from "./pages/Admin/ManageBusInformation/index";
+import ManageUser from "./pages/Admin/ManageUser/index";
+import ManageStatistical from "./pages/Admin/ManageStatistical/index";
+import ManageHire from "./pages/Admin/ManageHire/index";
+import ViewDetailCar from "./pages/Admin/ViewDetailCar";
+import ViewDetailTicket from "./pages/Admin/ViewDetailTicket/index";
 
 function App() {
   return (
@@ -63,6 +73,30 @@ function App() {
           </Route>
 
           <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          <Route element={<AdminTemplate />}>
+            <Route path="/admin/manage-car" element={<ManageCar />} />
+            <Route path="/admin/manage-car/:id" element={<ViewDetailCar />} />
+            <Route path="/admin/manage-ticket" element={<ManageTicket />} />
+            <Route
+              path="/admin/manage-ticket/:id"
+              element={<ViewDetailTicket />}
+            />
+            <Route
+              path="/admin/manage-bus-station"
+              element={<ManageBusStation />}
+            />
+            <Route
+              path="/admin/manage-bus-information"
+              element={<ManageBusInformation />}
+            />
+            <Route path="/admin/manage-user" element={<ManageUser />} />
+            <Route
+              path="/admin/manage-statistical"
+              element={<ManageStatistical />}
+            />
+            <Route path="/admin/manage-hire" element={<ManageHire />} />
+          </Route>
         </Routes>
       </HistoryRouter>
     </div>
