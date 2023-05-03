@@ -7,9 +7,10 @@ import youtubeLogo from "../../assets/images/youtube.png";
 import useDeviceDetect from "./../../hooks/useDeviceDetect";
 import "./style.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { CallApiLogoutUser, CallApiUserProfileReducer, CallApiGetOrderHistory } from './../../redux/reducers/userReducer';
+import { CallApiLogoutUser, CallApiUserProfileReducer } from './../../redux/reducers/userReducer';
 import { removeLocal } from "../../utils/config";
-import logo from "../../assets/images/logo.png"
+import logo from "../../assets/images/logo.png";
+import { getStringLocal } from "../../utils/config";
 
 const Header = () => {
   const location = useLocation();
@@ -19,11 +20,10 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const { isMobile } = useDeviceDetect();
   const userInfo = useSelector((state) => state.UserReducer.userLogin);
+  const userToken = getStringLocal("token");
   const items = [
     {
-      label: <Link to={"/lich-su-dat-ve"} onClick={() => {
-        dispatch(CallApiGetOrderHistory());
-      }}>Lịch sử mua vé</Link>,
+      label: <Link to={"/lich-su-dat-ve"}>Lịch sử mua vé</Link>,
       key: "0",
     },
     {
@@ -71,7 +71,7 @@ const Header = () => {
                 src={youtubeLogo}
                 preview={false}
               />
-              {Object.keys(userInfo).length > 0 ? (
+              {(Object.keys(userInfo).length > 0 && userToken) ? (
                 <Dropdown
                   menu={{
                     items,

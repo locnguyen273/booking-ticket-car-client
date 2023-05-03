@@ -58,9 +58,7 @@ export const CreateNewCarAction = (carData) => async (dispatch) => {
 export const GetOneCarDetailAction = (carId) => async (dispatch) => {
   try {
     const result = await ManageCarServices.GetOneCarDetail(carId);
-    if (result.status === 200) {
-      dispatch(getOneCarDetailReducer(result.data));
-    }
+    dispatch(getOneCarDetailReducer(result.data));
   } catch (err) {
     console.log(err);
   }
@@ -70,6 +68,7 @@ export const UpdateOneCarAction = (carId, data) => async (dispatch) => {
   try {
     const result = await ManageCarServices.UpdateOneCar(carId, data);
     if (result.status === 200) {
+      dispatch(GetListCarAction());
       history.push("/admin/manage-car");
       openNotificationWithIcon(`success`, `Cập nhật xe thành công !`);
     }

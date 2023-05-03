@@ -1,7 +1,7 @@
 import { Button, Input, Typography, Select } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateOneCarAction, GetOneCarDetailAction } from "../../../redux/reducers/admin/manageCarReducer";
+import { UpdateOneCarAction } from "../../../redux/reducers/admin/manageCarReducer";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -38,8 +38,12 @@ const ViewDetailCar = () => {
       phoneNumber: carDetailClone.phoneNumber,
     }
     dispatch(UpdateOneCarAction(carDetail.id, newData));
-    dispatch(GetOneCarDetailAction(carDetail.id));
   }
+
+  const handleDisabledCar = () => {
+    const newData = { isActive: stateActive };
+    dispatch(UpdateOneCarAction(carDetail.id, newData));
+  };
 
   return (
     <div className="car-detail">
@@ -96,12 +100,12 @@ const ViewDetailCar = () => {
         </div>
         <div className="car-detail__data__row">
           <div className="car-detail__data__item">
-            <p>Tài xế:</p>
-            <Input disabled name="nameDiver" value={carDetail.user.name} />
-          </div>
-          <div className="car-detail__data__item">
             <p>Số tầng:</p>
             <Input name="numberOfFloor" value={carDetailClone.numberOfFloor} onChange={handleChangeValue} />
+          </div>
+          <div className="car-detail__data__item">
+            <p>Tài xế:</p>
+            <Input disabled name="nameDiver" value={carDetail.user.name} />
           </div>
         </div>
         <div className="car-detail__data__row">
@@ -121,7 +125,10 @@ const ViewDetailCar = () => {
           onClick={() => navigate("/admin/manage-car")}
         >Quay lại</Button>
         <div className="car-detail__group">
-          <Button className="car-detail__group--disabled">Vô hiệu hóa</Button>
+          <Button 
+            className="car-detail__group--disabled"
+            onClick={handleDisabledCar}
+          >Vô hiệu hóa</Button>
           <Button className="car-detail__group--update" onClick={handleUpdateCar}>Cập nhật</Button>
         </div>
       </div>

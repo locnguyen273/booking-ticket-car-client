@@ -5,11 +5,15 @@ import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CreateNewCarAction, GetOneCarDetailAction } from "./../../../redux/reducers/admin/manageCarReducer";
+import { GetListCarAction } from './../../../redux/reducers/admin/manageCarReducer';
 
 
 const ManageCar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(GetListCarAction());
+  },[]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState([]);

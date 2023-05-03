@@ -12,12 +12,13 @@ export const MenuData = {
 export const MenuDataAdmin = {
   data: [
     { id: 1, name: "Quản lý xe", path: "/admin/manage-car" },
-    { id: 2, name: "Quản lý vé", path: "/admin/manage-ticket" },
+    { id: 2, name: "Quản lý vé xe", path: "/admin/manage-ticket" },
     { id: 3, name: "Quản lý bến xe", path: "/admin/manage-bus-station" },
     { id: 4, name: "Quản lý thông tin chuyến xe", path: "/admin/manage-bus-information" },
     { id: 5, name: "Quản lý người dùng", path: "/admin/manage-user" },
     { id: 6, name: "Thống kê", path: "/admin/manage-statistical" },
     { id: 7, name: "Quản lý tuyển dụng", path: "/admin/manage-hire" },
+    { id: 7, name: "Hồ sơ tuyển dụng", path: "/admin/manage-resume" },
   ]
 }
 

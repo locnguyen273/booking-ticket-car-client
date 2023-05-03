@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button, Typography, Image } from "antd";
 import { MenuDataAdmin } from "../../utils/menuData";
 import logo from "../../assets/images/logo-admin.png";
@@ -9,17 +9,29 @@ import { useDispatch } from "react-redux";
 import { GetListTicketAction } from "./../../redux/reducers/admin/manageTicketReducer";
 import { GetListCarAction } from "./../../redux/reducers/admin/manageCarReducer";
 import { GetListUserAction } from "./../../redux/reducers/admin/manageUserReducer";
+import { GetListAddressAction } from "./../../redux/reducers/admin/manageAddressReducer";
+import { GetListResumesAction } from "./../../redux/reducers/admin/manageCareerReducer";
+import {removeLocal } from "../../utils/config";
 
 const AdminTemplate = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
-
+  useEffect(() => {
+    setActive(location.pathname);
+  }, [location.pathname])
   useEffect(() => {
     dispatch(GetListCarAction());
     dispatch(GetListUserAction());
     dispatch(GetListTicketAction());
+    dispatch(GetListAddressAction());
+    dispatch(GetListResumesAction());
   }, []);
+  const handleLogoutAdminAction = () => {
+    removeLocal("token");
+    navigate("/login");
+  }
 
   return (
     <div className="admin-template">
@@ -53,7 +65,7 @@ const AdminTemplate = () => {
       </div>
       <div className="admin-template__right">
         <div className="admin-template__right__top">
-          <Button>
+          <Button onClick={handleLogoutAdminAction}>
             <i className="fas fa-sign-out-alt"></i>
           </Button>
         </div>

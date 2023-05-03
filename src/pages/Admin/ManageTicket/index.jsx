@@ -1,17 +1,21 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import { GetOneTicketDetailAction } from "../../../redux/reducers/admin/manageTicketReducer";
 import "./style.scss";
+import { GetListTicketAction } from './../../../redux/reducers/admin/manageTicketReducer';
 
 const ManageTicket = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(GetListTicketAction());
+  },[]);
   const listTicket = useSelector(
     (state) => state.ManageTicketReducer.listTicket
   );
-  console.log(listTicket);
 
   const handleViewDetailTicket = (ticketId) => {
     dispatch(GetOneTicketDetailAction(ticketId));

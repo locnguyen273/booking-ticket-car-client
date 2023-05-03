@@ -1,13 +1,23 @@
 import { Button, Typography, Radio } from "antd";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { CallApiPaymentAction } from "../../redux/reducers/userReducer";
 
 const Payment = (props) => {
   const { customerInfo, booked, setCurrent } = props;
+  const dispatch = useDispatch();
   const scheduleById = useSelector(
     (state) => state.ScheduleReducer.scheduleById
   );
   const [checkedPayment, setCheckedPayment] = useState(false);
+
+  const handleCreatePayment = () => {
+    const data = {
+      amount: customerInfo.totalMoney,
+      orderId: Math.floor(Math.random() * 1000)
+    }
+    dispatch(CallApiPaymentAction(data));
+  }
 
   return (
     <>
@@ -84,6 +94,7 @@ const Payment = (props) => {
         <Button 
           className="payment__group--btn-submit" 
           disabled={!checkedPayment}
+          onClick={handleCreatePayment}
         >
           Tiến hành thanh toán
         </Button>
