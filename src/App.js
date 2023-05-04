@@ -37,6 +37,10 @@ import ViewDetailUser from "./pages/Admin/ViewDetailUser";
 import ViewDetailCareer from "./pages/Admin/ViewDetailCareer";
 import ManageResume from "./pages/Admin/ManageResume";
 import ViewDetailResume from "./pages/Admin/ViewDetailResume";
+import DriverTemplate from "./templates/driver";
+import ManageMyCar from "./pages/Driver/ManageMyCar";
+import ManageUserProfile from "./pages/Driver/ManageUserProfile";
+import ManageInfoBus from "./pages/Driver/ManageInfoBus";
 
 function App() {
   return (
@@ -126,6 +130,12 @@ function App() {
             <Route path="/admin/manage-hire/:id" element={<ViewDetailCareer />} />
             <Route path="/admin/manage-resume" element={<ManageResume />} />
             <Route path="/admin/manage-resume/:id" element={<ViewDetailResume />} />
+          </Route>
+
+          <Route element={<DriverTemplate />}>
+            <Route path="/driver/manage-my-car" element={<ManageMyCar />} />
+            <Route path="/driver/manage-profile" element={<ManageUserProfile />} />
+            <Route path="/driver/manage-info-bus" element={<ManageInfoBus />} />
           </Route>
         </Routes>
       </HistoryRouter>

@@ -22,6 +22,14 @@ export const MenuDataAdmin = {
   ]
 }
 
+export const MenuDataDriver = {
+  data: [
+    { id: 1, name: "Quản lý xe của tôi", path: "/driver/manage-my-car" },
+    { id: 2, name: "Quản lý thông tin cá nhân", path: "/driver/manage-profile" },
+    { id: 3, name: "Quản lý thông tin chuyến xe", path: "/driver/manage-info-bus" }
+  ]
+}
+
 export const dataBooking = {
   typePrice: [
     {label: "Thấp - Cao", value: "1" }, 
