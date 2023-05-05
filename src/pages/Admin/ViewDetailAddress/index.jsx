@@ -31,7 +31,7 @@ const ViewDetailAddress = () => {
 
   const handleDisableAddress = () => {
     const newData = {
-      isActive: selectActiveAddress,
+      isActive: false,
     };
     dispatch(CallApiUpdateAddressAction(addressDetail.id, newData));
     dispatch(GetListAddressAction());

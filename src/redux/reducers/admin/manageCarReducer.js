@@ -21,8 +21,10 @@ const ManageCarReducer = createSlice({
   },
 });
 
-export const { getListCarReducer, getOneCarDetailReducer } =
-  ManageCarReducer.actions;
+export const { 
+  getListCarReducer, 
+  getOneCarDetailReducer 
+} = ManageCarReducer.actions;
 
 export default ManageCarReducer.reducer;
 
@@ -67,6 +69,28 @@ export const GetOneCarDetailAction = (carId) => async (dispatch) => {
 export const UpdateOneCarAction = (carId, data) => async (dispatch) => {
   try {
     const result = await ManageCarServices.UpdateOneCar(carId, data);
+    if (result.status === 200) {
+      dispatch(GetListCarAction());
+      history.push("/admin/manage-car");
+      openNotificationWithIcon(`success`, `Cập nhật xe thành công !`);
+    }
+  } catch (err) {
+    openNotificationWithIcon(`error`, `Cập nhật xe thất bại. Vui lòng thử lại !`);
+    console.log(err);
+  }
+};
+
+export const CreateSeatForCar = (carId) => async (dispatch) => {
+  try {
+    await ManageCarServices.CreateNewSeatForCar(carId);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const UpdateStatusSeatAction = (seatId, seatData) => async (dispatch) => {
+  try {
+    const result = await ManageCarServices.UpdateStatusSeatForCar(seatId, seatData);
     if (result.status === 200) {
       dispatch(GetListCarAction());
       history.push("/admin/manage-car");

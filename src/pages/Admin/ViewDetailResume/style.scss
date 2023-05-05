@@ -1,8 +1,6 @@
-.car-detail {
-  &__title {
-    text-align: center;
-    font-size: 32px !important;
-  }
+.cv-detail {
+  max-width: 936px;
+  margin: auto;
   &__data {
     &__row {
       display: grid;
@@ -10,43 +8,33 @@
       gap: 20px;
     }
     &__item {
-      margin: 0 0 10px 0;
+      margin: 0 0 10px 0 ;
       p {
-        font-weight: 600;
         margin: 0 0 10px 0;
+        font-weight: 500;
       }
     }
   }
-
-  &__function {
-    margin: 30px 0 20px;
+  &__bottom {
     display: flex;
     justify-content: space-between;
-    &--back {
-      border: 1px solid #1677ff;
-      width: 120px;
-      height: 40px;
-      font-size: 17px;
-      font-weight: 600;
-      border-radius: 20px;
-    }
-  }
-  &__group {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
+    margin: 20px 0 0;
     button {
-      margin: 0 0 0 20px;
       height: 40px;
+      border-radius: 20px;
       font-size: 17px;
       font-weight: 600;
       transition: all 0.3s ease-in-out;
     }
+    &--back {
+      width: 120px;
+    }
     &--disabled {
-      border-radius: 20px;
+      margin: 0 20px 0 0;
       background: #e70000;
       border: 1px solid #e70000 !important;
       color: #fff;
-      width: 140px;
+      width: 200px;
       &:hover {
         color: #e70000 !important;
         background: #fff;
@@ -54,7 +42,6 @@
     }
     &--update {
       width: 140px;
-      border-radius: 20px;
       background: #005aff;
       color: #fff;
       border: 1px solid #005aff !important;

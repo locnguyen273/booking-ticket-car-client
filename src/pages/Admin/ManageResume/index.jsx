@@ -3,24 +3,27 @@ import React, { useEffect, useState } from "react";
 import { Button, Select } from "antd";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { GetListResumesAction, GetDetailResumeAction } from "./../../../redux/reducers/admin/manageCareerReducer";
+import {
+  GetListResumesAction,
+  GetDetailResumeAction,
+} from "./../../../redux/reducers/admin/manageCareerReducer";
+import moment from "moment";
 
 const ManageResume = () => {
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(GetListResumesAction());
-  // }, []);
+  useEffect(() => {
+    dispatch(GetListResumesAction());
+  }, []);
 
-  const listResumes = useSelector(state => state.ManageCareerReducer.listResume);
+  const listResumes = useSelector(
+    (state) => state.ManageCareerReducer.listResume
+  );
   const [listResumesFilter, setListResumesFilter] = useState([]);
   useEffect(() => {
-    console.log("listResumes", listResumes);
-    listResumes.forEach(item => {
-      setListResumesFilter((prev) => [...prev, item]);
-    })
-  }, []);
+    setListResumesFilter(listResumes);
+  }, [listResumes]);
   const handleChange = (value) => {
-    const filtered = listResumes.filter(item => item.status === value);
+    const filtered = listResumes.filter((item) => item.status === value);
     setListResumesFilter(filtered);
   };
 
@@ -52,17 +55,38 @@ const ManageResume = () => {
           </tr>
         </thead>
         <tbody>
-          {listResumesFilter.length > 0 ? listResumesFilter.map(item => {
-            return <tr key={item.id} className={item.status === "Rejected" ? "manage-cv__rejected" : item.status === "Approved" ? "manage-cv__approved" : ""}>
-              <td>{item.career.name}</td>
-              <td>{item.career.workspace}</td>
-              <td>{item.fullName}</td>
-              <td>{Date(item.created_at).slice(0,21)}</td>
-              <td><Button onClick={() => {
-                dispatch(GetDetailResumeAction(item.id))
-              }}>Xem chi tiết</Button></td>
-            </tr>
-          }) : <p>Không tìm thấy dữ liệu</p>}
+          {listResumesFilter.length > 0 ? (
+            listResumesFilter.map((item) => {
+              return (
+                <tr
+                  key={item.id}
+                  className={
+                    item.status === "Rejected"
+                      ? "manage-cv__rejected"
+                      : item.status === "Approved"
+                      ? "manage-cv__approved"
+                      : ""
+                  }
+                >
+                  <td>{item.career.name}</td>
+                  <td>{item.career.workspace}</td>
+                  <td>{item.fullName}</td>
+                  <td>{moment(item.created_at).utc().format("DD/MM/YYYY")}</td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        dispatch(GetDetailResumeAction(item.id));
+                      }}
+                    >
+                      Xem chi tiết
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <p>Không tìm thấy dữ liệu</p>
+          )}
         </tbody>
       </table>
     </div>

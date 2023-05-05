@@ -24,7 +24,7 @@ const ManageCareerReducer = createSlice({
       state.listResume = payload;
     },
     getDetailResumeReducer: (state, { type, payload }) => {
-      state.listResume = payload;
+      state.resumeDetail = payload;
     },
   }
 });
@@ -126,3 +126,28 @@ export const GetDetailResumeAction = (resumeId) => async (dispatch) => {
     console.log(err);
   }
 }
+
+export const UpdateResumeAction = (resumeId, resumeData) => async (dispatch) => {
+  try {
+    const result = await ManageCareerService.UpdateResume(resumeId, resumeData);
+    if (result.status === 200) {
+      GetListResumesAction();
+      openNotificationWithIcon(
+        `success`,
+        `Cập nhật tuyển dụng thành công !`
+      );
+    } else {
+      openNotificationWithIcon(
+        `error`,
+        `Cập nhật tuyển dụng thất bại. Vui lòng thử lại sau !`
+      );
+    }
+    history.push("/admin/manage-resume");
+  } catch (err) {
+    openNotificationWithIcon(
+      `error`,
+      `Cập nhật tuyển dụng thất bại. Vui lòng thử lại sau !`
+    );
+    console.log(err);
+  }
+};

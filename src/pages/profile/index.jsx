@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Typography, Input, Button } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { UpdateUserProfileAction } from './../../redux/reducers/userReducer';
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.UserReducer.userProfile);
   const [profile, setProfile] = useState(userProfile);
-  console.log("profile: ", profile);
+  useEffect(() => {
+    setProfile(userProfile)
+  },[userProfile])
 
   const handleChangeProfile = (event) => {
     const name = event.target.name;
@@ -15,6 +19,18 @@ const Profile = () => {
       [name]: event.target.value,
     }));
   };
+
+  const handleUpdateProfile = () => {
+    const newProfile = {
+      username: profile.username,
+      phoneNumber: profile.phoneNumber,
+      email: profile.email,
+      city: profile.city,
+      district: profile.district,
+    }
+    console.log(newProfile);
+    dispatch(UpdateUserProfileAction(profile.id, newProfile));
+  }
 
   return (
     <div className="profile">
@@ -25,9 +41,9 @@ const Profile = () => {
         <div className="profile__form__item">
           <p>Họ và tên:</p>
           <Input
-            placeholder={profile.name}
-            name="name"
-            value={profile.name}
+            placeholder={profile.username}
+            name="username"
+            value={profile.username}
             onChange={handleChangeProfile}
           />
         </div>
@@ -67,7 +83,7 @@ const Profile = () => {
             onChange={handleChangeProfile}
           />
         </div>
-        <Button className="profile__form__btn-update">
+        <Button className="profile__form__btn-update" onClick={handleUpdateProfile}>
           Cập nhật thông tin
         </Button>
       </div>

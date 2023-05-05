@@ -41,6 +41,7 @@ import DriverTemplate from "./templates/driver";
 import ManageMyCar from "./pages/Driver/ManageMyCar";
 import ManageUserProfile from "./pages/Driver/ManageUserProfile";
 import ManageInfoBus from "./pages/Driver/ManageInfoBus";
+import ManageSeatOfCar from "./pages/Admin/ManageSeatOfCar";
 
 function App() {
   return (
@@ -102,6 +103,7 @@ function App() {
             <AdminTemplate />
           </ProtectedRouteAdmin>}>
             <Route path="/admin/manage-car" element={<ManageCar />} />
+            <Route path="/admin/manage-seat-of-car/:id" element={<ManageSeatOfCar />} />
             <Route path="/admin/manage-car/:id" element={<ViewDetailCar />} />
             <Route path="/admin/manage-ticket" element={<ManageTicket />} />
             <Route

@@ -29,6 +29,10 @@ const CreateNewResume = (resumeId, resumeData) => {
   return BaseApi.post(API_URL_DOMAIN + `/cv/${resumeId}`, resumeData)
 }
 
+const UpdateResume = (resumeId, resumeData) => {
+  return BaseApi.patch(API_URL_DOMAIN + `/cv/${resumeId}`, resumeData)
+}
+
 export const ManageCareerService = {
   GetAllCareers,
   GetDetailCareer,
@@ -37,4 +41,5 @@ export const ManageCareerService = {
   GetAllResumes,
   GetDetailResume,
   CreateNewResume,
+  UpdateResume,
 }

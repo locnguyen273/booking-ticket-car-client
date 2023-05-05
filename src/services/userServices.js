@@ -40,6 +40,10 @@ const CreateContentRating = (content, ticketId) => {
   return BaseApi.post(API_URL_DOMAIN + `/rate/${ticketId}`, content);
 }
 
+const UpdateUserProfile = (userId, userProfile) => {
+  return BaseApi.patch(API_URL_DOMAIN + `/user/${userId}`, userProfile);
+}
+
 export const UserServices = {
   RegisterUser,
   SendEmailRegister,
@@ -51,4 +55,5 @@ export const UserServices = {
   PaymentOrder,
   GetOneOrderHistory,
   CreateContentRating,
+  UpdateUserProfile,
 }

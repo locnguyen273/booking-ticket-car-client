@@ -1,9 +1,8 @@
-.manage-car {
+.bus-info {
   &__top {
     display: flex;
     column-gap: 20px;
-    &--add,
-    &--chair {
+    &--add {
       height: 40px;
       display: flex;
       align-items: center;
@@ -14,23 +13,11 @@
     &--add {
       background: #0072ff;
       border: 1px solid #0072ff;
-      width: 150px;
+      width: 200px;
       color: #fff;
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
       &:hover {
         color: #0072ff !important;
-        background: #fff;
-      }
-    }
-    &--chair {
-      border-radius: 20px;
-      width: 160px;
-      background: #fb4600;
-      border: 1px solid #fb4600 !important;
-      color: #fff;
-      transition: all .3s ease-in-out;
-      &:hover {
-        color: #fb4600 !important;
         background: #fff;
       }
     }
@@ -38,7 +25,7 @@
   table {
     width: 100%;
     text-align: center;
-    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
     background-color: #fff;
     background-clip: border-box;
     border: 1px solid #e3e6f0;
@@ -52,22 +39,9 @@
   tr {
     height: 42px;
   }
-  th, td {
+  th,
+  td {
     border-bottom: 1px solid #e3e6f0;
     border-right: 1px solid #e3e6f0;
-  }
-  &__modal {
-    &__row {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 15px;
-    }
-    &__item {
-      margin: 0 0 10px;
-      p {
-        font-weight: 600;
-        margin: 0 0 8px 0;
-      }
-    }
   }
 }

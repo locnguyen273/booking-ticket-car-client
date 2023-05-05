@@ -180,3 +180,17 @@ export const CallApiCreateContentRating = (content, ticketId) => async (dispatch
     console.log(err);
   }
 }
+
+export const UpdateUserProfileAction = (userId, userProfile) => async (dispatch) => {
+  try {
+    const result = await UserServices.UpdateUserProfile(userId, userProfile);
+    if(result.status === 200) {
+      CallApiUserProfileReducer(userId);
+      openNotificationWithIcon(`success`, `Cập nhật thông tin cá nhân thành công !`);
+    } else {
+      openNotificationWithIcon(`error`, `Cập nhật thông tin cá nhân thất bại. Vui lòng thử lại sau !!!`)
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}

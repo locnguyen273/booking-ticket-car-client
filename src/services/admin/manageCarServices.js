@@ -17,9 +17,19 @@ const UpdateOneCar = (carId, data) => {
   return BaseApi.patch(API_URL_DOMAIN + `/car/${carId}`, data);
 }
 
+const CreateNewSeatForCar = (carId) => {
+  return BaseApi.post(API_URL_DOMAIN + `/seat/${carId}`);
+}
+
+const UpdateStatusSeatForCar = (seatId, seatStatus) => {
+  return BaseApi.patch(API_URL_DOMAIN + `/seat/${seatId}`, seatStatus);
+}
+
 export const ManageCarServices = {
   GetAllCars,
   CreateNewCar,
   GetOneCarDetail,
   UpdateOneCar,
+  CreateNewSeatForCar,
+  UpdateStatusSeatForCar,
 }

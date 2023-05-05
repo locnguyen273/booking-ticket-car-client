@@ -1,5 +1,5 @@
 import { Button, Input, Typography, Select } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,17 @@ const ViewDetailTicket = () => {
   });
   const [stateActive, setStateActive] = useState(ticketDetail.status);
 
+  useEffect(() => {
+    setTicketDetailClone({
+      fullname: ticketDetail.fullname,
+      phoneNumber: ticketDetail.phoneNumber,
+      city: ticketDetail.city,
+      district: ticketDetail.district,
+      email: ticketDetail.email
+    });
+    setStateActive(ticketDetail.status);
+  },[ticketDetail])
+
   const handleChangeValue = (event) => {
     const name = event.target.name;
     setTicketDetailClone((prev) => ({
@@ -25,6 +36,8 @@ const ViewDetailTicket = () => {
       [name]: event.target.value,    
     }))
   };
+
+  console.log(ticketDetailClone);
 
   const handleUpdateCar = () => {
     const newData = {

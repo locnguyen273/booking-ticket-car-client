@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Modal, Select } from "antd";
 import React, { useEffect, useState } from "react";
@@ -13,7 +14,7 @@ const ManageCar = () => {
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(GetListCarAction());
-  },[]);
+  }, []);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState([]);
@@ -32,13 +33,15 @@ const ManageCar = () => {
   const listCar = useSelector((state) => state.ManageCarReducer.listCar);
   const listUser = useSelector((state) => state.ManageUserReducer.listUser);
   useEffect(() => {
-    if (userData.length === 0) {
-      listUser.forEach((user) => {
-        const newDataUser = { label: user.name, value: user.id };
-        setUserData((prev) => [...prev, newDataUser]);
-      });
-    }
-  }, []);
+    let newArr = []
+    listUser.filter(item => {
+      if (item.role.code === "driver") {
+        const newDataUser = { label: item.name, value: item.id };
+        newArr.push(newDataUser)
+      }
+    });
+    setUserData(newArr);
+  }, [listUser]);
 
   const showModal = () => setOpen(true);
   const handleCancel = () => setOpen(false);
@@ -79,9 +82,6 @@ const ManageCar = () => {
       <div className="manage-car__top">
         <Button className="manage-car__top--add" onClick={showModal}>
           Tạo xe mới <i className="fas fa-plus"></i>
-        </Button>
-        <Button className="manage-car__top--chair">
-          Quản lý ghế <i className="fas fa-chair"></i>
         </Button>
       </div>
       <table>
@@ -143,9 +143,9 @@ const ManageCar = () => {
                 className="router-confirm__top--selected"
                 onChange={(value) => setTypeChair(value)}
                 options={[
-                  {value: "bed", label: "Giường"},
-                  {value: "chair", label: "Ghế"},
-                  {value: "limousine", label: "Limousine"},
+                  { value: "bed", label: "Giường" },
+                  { value: "chair", label: "Ghế" },
+                  { value: "limousine", label: "Limousine" },
                 ]}
                 style={{ width: "100%" }}
               />
