@@ -1,10 +1,19 @@
-import { Typography } from "antd";
+import { Typography, Button } from "antd";
 import React from "react";
 import "./style.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { CallApiGetOneOrderHistory } from './../../redux/reducers/userReducer';
 
 const HistoryOrder = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const orderHistory = useSelector((state) => state.UserReducer.orderHistory);
+
+  const handleCreateRating = (idTicket) => {
+    dispatch(CallApiGetOneOrderHistory(idTicket));
+    navigate(`/danh-gia/${idTicket}`);
+  }
   
   return (
     <div className="history">
@@ -21,13 +30,14 @@ const HistoryOrder = () => {
               <th>Ngày đi</th>
               <th>Thanh toán</th>
               <th>Trạng thái</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {orderHistory.map((item) => {
               return (
                 <tr key={item.id}>
-                  <td>{item.schedule.id}</td>
+                  <td>{item.id}</td>
                   <td>{item.totalMoney / item.schedule.price}</td>
                   <td>{item.schedule.distance}</td>
                   <td>{Date(item.startTime).slice(16, 21)}</td>
@@ -38,6 +48,7 @@ const HistoryOrder = () => {
                     })}
                   </td>
                   <td>{item.status}</td>
+                  <td><Button onClick={() => handleCreateRating(item.id)}>Đánh giá</Button></td>
                 </tr>
               );
             })}

@@ -9,6 +9,9 @@ import { combineReducers } from "redux";
 import ManageCarReducer from "./reducers/admin/manageCarReducer";
 import ManageUserReducer from "./reducers/admin/manageUserReducer";
 import ManageTicketReducer from "./reducers/admin/manageTicketReducer";
+import ManageAddressReducer from "./reducers/admin/manageAddressReducer";
+import ManageCareerReducer from "./reducers/admin/manageCareerReducer";
+import ManageBusInfoReducer from "./reducers/admin/manageBusInfoReducer";
 
 const persistConfig = {
   key: 'root',
@@ -23,6 +26,9 @@ const rootReducer = combineReducers({
   ManageCarReducer,
   ManageUserReducer,
   ManageTicketReducer,
+  ManageAddressReducer,
+  ManageCareerReducer,
+  ManageBusInfoReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({

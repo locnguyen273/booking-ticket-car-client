@@ -21,7 +21,7 @@ const RouteConfirmation = (props) => {
     setTotalPrice,
   } = props;
   const [disableBtn, setDisableBtn] = useState(true);
-  const sheduleFiltered = useSelector(
+  const scheduleFiltered = useSelector(
     (state) => state.ScheduleReducer.scheduleMoreThanCurrentDateFiltered
   );
   const scheduleById = useSelector(
@@ -29,7 +29,8 @@ const RouteConfirmation = (props) => {
   );
 
   useEffect(() => {
-    if (sheduleFiltered.length > 0 && chairExist.length === 0) {
+    setChairExist([]);
+    if (scheduleFiltered.length > 0 && chairExist.length === 0) {
       scheduleById.tickets?.forEach(item => {
         setChairExist((prev) => ([
           ...prev,
@@ -88,8 +89,8 @@ const RouteConfirmation = (props) => {
         />
       </div>
       <div className="route-confirm__list">
-        {sheduleFiltered.length > 0 ? (
-          sheduleFiltered.map((item) => {
+        {scheduleFiltered.length > 0 ? (
+          scheduleFiltered.map((item) => {
             return (
               <div key={item.id} className="route-confirm__item">
                 <p className="route-confirm__item--header">

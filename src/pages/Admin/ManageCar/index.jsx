@@ -1,15 +1,25 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Modal, Select } from "antd";
+import { Button, Input, Modal, Select, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CreateNewCarAction, GetOneCarDetailAction } from "./../../../redux/reducers/admin/manageCarReducer";
+import { GetListCarAction } from './../../../redux/reducers/admin/manageCarReducer';
 
 
 const ManageCar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(GetListCarAction());
+  }, []);
+  const listCar = useSelector((state) => state.ManageCarReducer.listCar);
+  const listUser = useSelector((state) => state.ManageUserReducer.listUser);
+
+  const [listCarClone, setListCarClone] = useState([]);
+  const [current, setCurrent] = useState(1);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState([]);
@@ -25,16 +35,19 @@ const ManageCar = () => {
   );
   const [userId, setUserId] = useState(null);
 
-  const listCar = useSelector((state) => state.ManageCarReducer.listCar);
-  const listUser = useSelector((state) => state.ManageUserReducer.listUser);
   useEffect(() => {
-    if (userData.length === 0) {
-      listUser.forEach((user) => {
-        const newDataUser = { label: user.name, value: user.id };
-        setUserData((prev) => [...prev, newDataUser]);
-      });
-    }
-  }, []);
+    setListCarClone(listCar.slice(0, 10))
+  },[listCar])
+  useEffect(() => {
+    let newArr = []
+    listUser.filter(item => {
+      if (item.role.code === "driver") {
+        const newDataUser = { label: item.name, value: item.id };
+        newArr.push(newDataUser)
+      }
+    });
+    setUserData(newArr);
+  }, [listUser]);
 
   const showModal = () => setOpen(true);
   const handleCancel = () => setOpen(false);
@@ -70,14 +83,16 @@ const ManageCar = () => {
     navigate(`/admin/manage-car/${carId}`);
   }
 
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListCarClone(listCar.slice(10 * (e - 1), e * 10));
+  };
+
   return (
     <div className="manage-car">
       <div className="manage-car__top">
         <Button className="manage-car__top--add" onClick={showModal}>
           Tạo xe mới <i className="fas fa-plus"></i>
-        </Button>
-        <Button className="manage-car__top--chair">
-          Quản lý ghế <i className="fas fa-chair"></i>
         </Button>
       </div>
       <table>
@@ -93,8 +108,8 @@ const ManageCar = () => {
           </tr>
         </thead>
         <tbody>
-          {listCar.length > 0 &&
-            listCar.map((item) => {
+          {listCarClone.length > 0 &&
+            listCarClone.map((item) => {
               return (
                 <tr key={item.id}>
                   <td>{item.name}</td>
@@ -113,6 +128,15 @@ const ManageCar = () => {
             })}
         </tbody>
       </table>
+
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listCar.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
+
       <Modal
         open={open} title="Thêm mới xe" onOk={handleOk} onCancel={handleCancel}
         footer={[
@@ -139,9 +163,9 @@ const ManageCar = () => {
                 className="router-confirm__top--selected"
                 onChange={(value) => setTypeChair(value)}
                 options={[
-                  {value: "bed", label: "Giường"},
-                  {value: "chair", label: "Ghế"},
-                  {value: "limousine", label: "Limousine"},
+                  { value: "bed", label: "Giường" },
+                  { value: "chair", label: "Ghế" },
+                  { value: "limousine", label: "Limousine" },
                 ]}
                 style={{ width: "100%" }}
               />

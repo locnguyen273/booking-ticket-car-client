@@ -39,10 +39,12 @@ const BookingTicket = () => {
   };
   const onChangeChoose = (ticketId) => {
     dispatch(CallApiGetScheduleByTicketId(ticketId));
-    if (!showChair && scheduleById.id === ticketId) {
-      setShowChair(true);
-    } else {
-      setShowChair(false);
+    if (Object.keys(scheduleById).length > 0) {
+      if (!showChair && scheduleById.id === ticketId) {
+        setShowChair(true);
+      } else {
+        setShowChair(false);
+      }
     }
   };
   const handleContinueStep = () => {
@@ -96,7 +98,7 @@ const BookingTicket = () => {
         />
       );
     } else {
-      return <Payment 
+      return <Payment
         customerInfo={customerInfo}
         booked={booked}
         setCurrent={setCurrent}

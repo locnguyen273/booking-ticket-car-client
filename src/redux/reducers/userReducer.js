@@ -8,6 +8,7 @@ const initialState = {
   userLogin: {},
   userProfile: {},
   orderHistory: [],
+  oneOrderHistory: {},
 };
 
 const UserReducer = createSlice({
@@ -26,14 +27,18 @@ const UserReducer = createSlice({
     userOrderHistory: (state, { type, payload }) => {
       state.orderHistory = payload;
     },
+    getUserOrderOneHistory: (state, { type, payload }) => {
+      state.oneOrderHistory = payload;
+    },
   },
 });
 
-export const { 
-  userLoginReducer, 
-  userLogoutReducer, 
+export const {
+  userLoginReducer,
+  userLogoutReducer,
   userProfileReducer,
   userOrderHistory,
+  getUserOrderOneHistory,
 } =
   UserReducer.actions;
 
@@ -57,13 +62,23 @@ export const CallApiRegisterUser = async (userInfoRegister) => {
 export const CallApiLoginUser = (userInfoLogin) => async (dispatch) => {
   try {
     const result = await UserServices.LoginUser(userInfoLogin);
-    await dispatch(userLoginReducer(result.data));
-    openNotificationWithIcon(
-      `success`,
-      `Đăng nhập thành công. Xin chào ${result.data.name} !`
-    );
-    saveStringLocal("token", result.data.access_token);
-    history.push("/");
+    if (result.data.role === "admin") {
+      await dispatch(userLoginReducer(result.data));
+      openNotificationWithIcon(
+        `success`,
+        `Đăng nhập thành công. Xin chào ${result.data.name} !`
+      );
+      saveStringLocal("token", result.data.access_token);
+      history.push("/admin/manage-car");
+    } else if (result.data.role === "member") {
+      await dispatch(userLoginReducer(result.data));
+      openNotificationWithIcon(
+        `success`,
+        `Đăng nhập thành công. Xin chào ${result.data.name} !`
+      );
+      saveStringLocal("token", result.data.access_token);
+      history.push("/");
+    }
   } catch (err) {
     openNotificationWithIcon(`error`, `Đăng nhập thất bại. Vui lòng thử lại !`);
   }
@@ -112,7 +127,7 @@ export const CallApiForgotPasswordUser = (userUpdate) => async () => {
 export const CallApiSendMailForgotPassword = (mail) => async () => {
   try {
     const result = await UserServices.SendMailForgotPassword(mail);
-    if(result.status === 200) {
+    if (result.status === 200) {
       openNotificationWithIcon(`success`, `Vui lòng kiểm tra email để đặt lại mật khẩu !`);
     }
   } catch (err) {
@@ -136,7 +151,45 @@ export const CallApiGetOrderHistory = () => async (dispatch) => {
 export const CallApiPaymentAction = (dataOrder) => async (dispatch) => {
   try {
     const result = await UserServices.PaymentOrder(dataOrder);
-    console.log(result.data);
+    window.open(result.data, '_blank', 'noreferrer');
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const CallApiGetOneOrderHistory = (ticketId) => async (dispatch) => {
+  try {
+    const result = await UserServices.GetOneOrderHistory(ticketId);
+    dispatch(getUserOrderOneHistory(result.data));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const CallApiCreateContentRating = (content, ticketId) => async (dispatch) => {
+  try {
+    const result = await UserServices.CreateContentRating(content, ticketId);
+    if(result.status === 201) {
+      openNotificationWithIcon(`success`, `Đánh giá thành công !`);
+    } else {
+      openNotificationWithIcon(`error`, `Đánh giá thất bại. Vui lòng thử lại sau !!!`)
+    }
+    history.push("/");
+  } catch (err) {
+    openNotificationWithIcon(`error`, `Đánh giá thất bại. Vui lòng thử lại sau !!!`)
+    console.log(err);
+  }
+}
+
+export const UpdateUserProfileAction = (userId, userProfile) => async (dispatch) => {
+  try {
+    const result = await UserServices.UpdateUserProfile(userId, userProfile);
+    if(result.status === 200) {
+      CallApiUserProfileReducer(userId);
+      openNotificationWithIcon(`success`, `Cập nhật thông tin cá nhân thành công !`);
+    } else {
+      openNotificationWithIcon(`error`, `Cập nhật thông tin cá nhân thất bại. Vui lòng thử lại sau !!!`)
+    }
   } catch (err) {
     console.log(err);
   }

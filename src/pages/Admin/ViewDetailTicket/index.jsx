@@ -1,15 +1,14 @@
 import { Button, Input, Typography, Select } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import { UpdateOneTicketAction, CancelOneTicketAction } from './../../../redux/reducers/admin/manageTicketReducer';
 
 const ViewDetailTicket = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ticketDetail = useSelector((state) => state.ManageTicketReducer.ticketDetail);
-
-  console.log(ticketDetail);
   const [ticketDetailClone, setTicketDetailClone] = useState({
     fullname: ticketDetail.fullname,
     phoneNumber: ticketDetail.phoneNumber,
@@ -17,29 +16,43 @@ const ViewDetailTicket = () => {
     district: ticketDetail.district,
     email: ticketDetail.email
   });
-  // const [typeCar, setTypeCar] = useState(carDetail.type);
   const [stateActive, setStateActive] = useState(ticketDetail.status);
 
+  useEffect(() => {
+    setTicketDetailClone({
+      fullname: ticketDetail.fullname,
+      phoneNumber: ticketDetail.phoneNumber,
+      city: ticketDetail.city,
+      district: ticketDetail.district,
+      email: ticketDetail.email
+    });
+    setStateActive(ticketDetail.status);
+  },[ticketDetail])
+
   const handleChangeValue = (event) => {
-    // const name = event.target.name;
-    // setCarDetailClone((prev) => ({
-    //   ...prev,
-    //   [name]: event.target.value,    
-    // }))
+    const name = event.target.name;
+    setTicketDetailClone((prev) => ({
+      ...prev,
+      [name]: event.target.value,    
+    }))
   };
 
+  console.log(ticketDetailClone);
+
   const handleUpdateCar = () => {
-    // const newData = {
-    //   name: carDetailClone.name,
-    //   type: typeCar,
-    //   toltalRow: Number(carDetailClone.toltalRow),
-    //   totalColumn: Number(carDetailClone.totalColumn),
-    //   numberOfFloor: Number(carDetailClone.numberOfFloor),
-    //   isActive: stateActive,
-    //   phoneNumber: carDetailClone.phoneNumber,
-    // }
-    // dispatch(UpdateOneCarAction(carDetail.id, newData));
-    // dispatch(GetOneCarDetailAction(carDetail.id));
+    const newData = {
+      fullname: ticketDetailClone.fullname,
+      email: ticketDetailClone.email,
+      city: ticketDetailClone.city,
+      district: ticketDetailClone.district,
+      isActive: stateActive,
+      phoneNumber: ticketDetailClone.phoneNumber,
+    }
+    dispatch(UpdateOneTicketAction(ticketDetail.id, newData));
+  };
+
+  const handleDisableTicket = () => {
+    dispatch(CancelOneTicketAction(ticketDetail.id));
   }
 
   return (
@@ -104,7 +117,10 @@ const ViewDetailTicket = () => {
           onClick={() => navigate("/admin/manage-ticket")}
         >Quay lại</Button>
         <div className="ticket-detail__group">
-          <Button className="ticket-detail__group--disabled">Vô hiệu hóa</Button>
+          <Button 
+            className="ticket-detail__group--disabled"
+            onClick={handleDisableTicket}
+          >Vô hiệu hóa</Button>
           <Button className="ticket-detail__group--update" onClick={handleUpdateCar}>Cập nhật</Button>
         </div>
       </div>

@@ -16,7 +16,7 @@ const Hire = () => {
     dispatch(CallApiGetListCareers());
   }, []);
   const handleChangeSliceCareerList = (e) => {
-    setDataCareer(listCareers.slice(e - 1 + 10 * (e - 1), e * 10));
+    setDataCareer(listCareers.slice(10 * (e - 1), e * 10));
   };
   const handleSearchCareer = () => {
     setDataCareer(dataCareerFiltered);

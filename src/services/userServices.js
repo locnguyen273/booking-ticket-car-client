@@ -28,8 +28,20 @@ const GetOrderHistory = () => {
   return BaseApi.get(API_URL_DOMAIN + "/ticket/user");
 }
 
+const GetOneOrderHistory = (tickedId) => {
+  return BaseApi.get(API_URL_DOMAIN + `/ticket/${tickedId}`);
+}
+
 const PaymentOrder = (dataOrder) => {
   return BaseApi.post(API_URL_DOMAIN + "/payment/create_payment_url", dataOrder);
+}
+
+const CreateContentRating = (content, ticketId) => {
+  return BaseApi.post(API_URL_DOMAIN + `/rate/${ticketId}`, content);
+}
+
+const UpdateUserProfile = (userId, userProfile) => {
+  return BaseApi.patch(API_URL_DOMAIN + `/user/${userId}`, userProfile);
 }
 
 export const UserServices = {
@@ -41,4 +53,7 @@ export const UserServices = {
   SendMailForgotPassword,
   GetOrderHistory,
   PaymentOrder,
+  GetOneOrderHistory,
+  CreateContentRating,
+  UpdateUserProfile,
 }
