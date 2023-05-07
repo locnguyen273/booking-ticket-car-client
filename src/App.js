@@ -42,6 +42,7 @@ import ManageMyCar from "./pages/Driver/ManageMyCar";
 import ManageUserProfile from "./pages/Driver/ManageUserProfile";
 import ManageInfoBus from "./pages/Driver/ManageInfoBus";
 import ManageSeatOfCar from "./pages/Admin/ManageSeatOfCar";
+import ViewDetailBusInfo from "./pages/Admin/ViewDetailBusInfo";
 
 function App() {
   return (
@@ -122,6 +123,7 @@ function App() {
               path="/admin/manage-bus-information"
               element={<ManageBusInformation />}
             />
+            <Route path="/admin/manage-info-bus/:id" element={<ViewDetailBusInfo />} />
             <Route path="/admin/manage-user" element={<ManageUser />} />
             <Route path="/admin/manage-user/:id" element={<ViewDetailUser />} />
             <Route

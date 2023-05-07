@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Button, Input, Modal, Select } from "antd";
+import { Button, Input, Modal, Select, Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { GetListUserAction, GetDetailUserAction, CreateNewUserAction } from './../../../redux/reducers/admin/manageUserReducer';
 import "./style.scss";
@@ -23,7 +23,13 @@ const ManageUser = () => {
     city: "",
     district: "",
   });
+  const [current, setCurrent] = useState(1);
   const [roleRegister, setRoleRegister] = useState(3);
+  const [listUserClone, setListUserClone] = useState([]);
+
+  useEffect(() => {
+    setListUserClone(listUser.slice(0,10));
+  },[listUser]);
   const showModal = () => setOpen(true);
   const handleCancel = () => setOpen(false);
 
@@ -59,6 +65,11 @@ const ManageUser = () => {
     dispatch(GetDetailUserAction(userId));
   }
 
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListUserClone(listUser.slice(10 * (e - 1), e * 10));
+  };
+
   return (
     <div className="manage-user">
       <div className="manage-user__top">
@@ -77,8 +88,8 @@ const ManageUser = () => {
           </tr>
         </thead>
         <tbody>
-          {listUser.length > 0 &&
-            listUser.map((item) => {
+          {listUserClone.length > 0 &&
+            listUserClone.map((item) => {
               return (
                 <tr key={item.id}>
                   <td>{item.username}</td>
@@ -93,6 +104,15 @@ const ManageUser = () => {
             })}
         </tbody>
       </table>
+
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listUser.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
+
       <Modal
         open={open} title="Thêm tài khoản mới" onOk={handleOk} onCancel={handleCancel}
         footer={[

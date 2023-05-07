@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Modal, Select } from "antd";
+import { Button, Input, Modal, Select, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,11 @@ const ManageCar = () => {
   useEffect(() => {
     dispatch(GetListCarAction());
   }, []);
+  const listCar = useSelector((state) => state.ManageCarReducer.listCar);
+  const listUser = useSelector((state) => state.ManageUserReducer.listUser);
+
+  const [listCarClone, setListCarClone] = useState([]);
+  const [current, setCurrent] = useState(1);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState([]);
@@ -30,8 +35,9 @@ const ManageCar = () => {
   );
   const [userId, setUserId] = useState(null);
 
-  const listCar = useSelector((state) => state.ManageCarReducer.listCar);
-  const listUser = useSelector((state) => state.ManageUserReducer.listUser);
+  useEffect(() => {
+    setListCarClone(listCar.slice(0, 10))
+  },[listCar])
   useEffect(() => {
     let newArr = []
     listUser.filter(item => {
@@ -77,6 +83,11 @@ const ManageCar = () => {
     navigate(`/admin/manage-car/${carId}`);
   }
 
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListCarClone(listCar.slice(10 * (e - 1), e * 10));
+  };
+
   return (
     <div className="manage-car">
       <div className="manage-car__top">
@@ -97,8 +108,8 @@ const ManageCar = () => {
           </tr>
         </thead>
         <tbody>
-          {listCar.length > 0 &&
-            listCar.map((item) => {
+          {listCarClone.length > 0 &&
+            listCarClone.map((item) => {
               return (
                 <tr key={item.id}>
                   <td>{item.name}</td>
@@ -117,6 +128,15 @@ const ManageCar = () => {
             })}
         </tbody>
       </table>
+
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listCar.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
+
       <Modal
         open={open} title="Thêm mới xe" onOk={handleOk} onCancel={handleCancel}
         footer={[

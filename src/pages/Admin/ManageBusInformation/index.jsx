@@ -1,15 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetListBusInfoAction } from "./../../../redux/reducers/admin/manageBusInfoReducer";
-import { Button, Modal, Input, Select, DatePicker } from "antd";
+import { 
+  GetListBusInfoAction, 
+  CreateNewScheduleAction,
+  GetDetailBusInfoAction,
+} from "./../../../redux/reducers/admin/manageBusInfoReducer";
+import { Button, Modal, Input, Select, DatePicker, Pagination } from "antd";
 import moment from "moment";
 import "./style.scss";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 const ManageBusInformation = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(GetListBusInfoAction());
   }, []);
@@ -35,6 +42,7 @@ const ManageBusInformation = () => {
   const handleCancel = () => setOpen(false);
   const [dayBusGo, setDayBusGo] = useState("");
   const [dayBusArrive, setDayBusArrive] = useState("");
+  const [current, setCurrent] = useState(1);
   const customFormat = (value) => `${value.format("DD/MM/YYYY")}`;
 
   useEffect(() => {
@@ -44,8 +52,8 @@ const ManageBusInformation = () => {
     });
   }, []);
   useEffect(() => {
-    setListBusClone(listBusInfo);
-  }, [listBusInfo]);
+    setListBusClone(listBusInfo.slice(0, 10));
+  }, []);
 
   const handleChangeValueModal = (event) => {
     const name = event.target.name;
@@ -54,24 +62,32 @@ const ManageBusInformation = () => {
       [name]: event.target.value,
     }));
   };
-
   const handleOk = () => {
     const newDataCreate = {
-      price:  Number(newListBus.price),
+      price: Number(newListBus.price),
       departureAddress: Number(chooseBusGo),
       destinationAddress: Number(chooseBusArrive),
-      startTime: dayBusGo,
-      endTime: dayBusArrive,
+      startTime: dayBusGo.$d.toISOString(),
+      endTime: dayBusArrive.$d.toISOString(),
       distance: newListBus.distance
     };
-    console.log(newDataCreate);
-    // dispatch(CreateNewCarAction(newDataCreate));
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   setOpen(false);
-    // }, 3000);
+    dispatch(CreateNewScheduleAction(newDataCreate));
+    dispatch(GetListBusInfoAction());
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOpen(false);
+    }, 3000);
   };
+
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListBusClone(listBusInfo.slice(10 * (e - 1), e * 10));
+  };
+  const handleViewDetailBusInfo = (id) => {
+    dispatch(GetDetailBusInfoAction(id));
+    navigate(`/admin/manage-info-bus/${id}`);
+  }
 
   return (
     <div className="bus-info">
@@ -105,13 +121,19 @@ const ManageBusInformation = () => {
                 <td>{moment.utc(item.endTime).format("hh:mm:ss")}</td>
                 <td>{item.distance}</td>
                 <td>{item.isActive ? "Đang hoạt động" : "Tạm dừng"}</td>
-                <td><Button>Xem chi tiết</Button></td>
+                <td><Button onClick={() => handleViewDetailBusInfo(item.id)}>Xem chi tiết</Button></td>
               </tr>
             );
           })}
         </tbody>
       </table>
-
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listBusInfo.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
       <Modal
         open={open}
         title="Thêm mới chuyến xe"
@@ -167,7 +189,7 @@ const ManageBusInformation = () => {
               <Select
                 onChange={(value) => {
                   setChooseBusGo(value);
-                  setListBusArrive(listBusArrive.filter(item => item.name !== value));
+                  setListBusArrive(listAddressBus.filter(item => item.id !== value));
                 }}
                 style={{ width: "100%" }}
               >
@@ -194,8 +216,11 @@ const ManageBusInformation = () => {
             </div>
             <div className="manage-car__modal__item">
               <p>Điểm đến:</p>
-              <Select 
-                onChange={(value) => setChooseBusArrive(value)}
+              <Select
+                onChange={(value) => {
+                  setChooseBusArrive(value);
+                  setListBusGo(listAddressBus.filter(item => item.id !== value));
+                }}
                 style={{ width: "100%" }}
               >
                 {listBusArrive.length > 0 &&

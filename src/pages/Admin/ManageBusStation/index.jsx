@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Modal, Input } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, Input, Pagination } from "antd";
 import "./style.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { GetListAddressAction, CreateNewAddressAction } from "../../../redux/reducers/admin/manageAddressReducer";
@@ -10,11 +10,17 @@ const ManageBusStation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const listAddress = useSelector(state => state.ManageAddressReducer.listAddress);
+  const [listAddressClone, setListAddressClone] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [current, setCurrent] = useState(1);
   const [newAddress, setNewAddress] = useState({
     name: "", city: ""
   });
+
+  useEffect(() => {
+    setListAddressClone(listAddress);
+  },[listAddress]);
 
   const showModal = () => setOpen(true);
   const handleCancel = () => setOpen(false);
@@ -41,6 +47,11 @@ const ManageBusStation = () => {
     navigate(`/admin/manage-bus-station/${addressId}`)
   }
 
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListAddressClone(listAddress.slice(10 * (e - 1), e * 10));
+  };
+
   return (
     <div className="bus-station">
       <div className="bus-station__top">
@@ -60,7 +71,7 @@ const ManageBusStation = () => {
         </thead>
         <tbody>
           {
-            listAddress.length > 0 && listAddress.map(item => {
+            listAddressClone.length > 0 && listAddressClone.map(item => {
               return (
                 <tr key={item.id}>
                   <td>{item.name}</td>
@@ -73,6 +84,13 @@ const ManageBusStation = () => {
           }
         </tbody>
       </table>
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listAddress.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
       <Modal
         open={open} title="Thêm mới xe" onOk={handleOk} onCancel={handleCancel}
         footer={[

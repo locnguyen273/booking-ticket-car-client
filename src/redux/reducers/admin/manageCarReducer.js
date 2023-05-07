@@ -40,7 +40,7 @@ export const GetListCarAction = () => async (dispatch) => {
 export const CreateNewCarAction = (carData) => async (dispatch) => {
   try {
     const result = await ManageCarServices.CreateNewCar(carData);
-    if (result.status === 200) {
+    if (result.status === 201) {
       openNotificationWithIcon(`success`, `Đã thêm xe mới thành công !`);
     } else {
       openNotificationWithIcon(

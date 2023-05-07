@@ -10,7 +10,7 @@
   }
   table {
     width: 100%;
-    text-align: center;
+    text-align: left;
     box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
     background-color: #fff;
     background-clip: border-box;
@@ -27,6 +27,7 @@
   }
   th,
   td {
+    padding: 0 0 0 20px;
     border-bottom: 1px solid #e3e6f0;
     border-right: 1px solid #e3e6f0;
   }

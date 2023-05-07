@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Button, Select } from "antd";
+import { Button, Select, Pagination } from "antd";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,12 +19,24 @@ const ManageResume = () => {
     (state) => state.ManageCareerReducer.listResume
   );
   const [listResumesFilter, setListResumesFilter] = useState([]);
+  const [current, setCurrent] = useState(1);
+
   useEffect(() => {
-    setListResumesFilter(listResumes);
+    setListResumesFilter(listResumes.slice(0, 10));
   }, [listResumes]);
   const handleChange = (value) => {
-    const filtered = listResumes.filter((item) => item.status === value);
-    setListResumesFilter(filtered);
+    console.log(value);
+    if(value === "All") {
+      setListResumesFilter(listResumes.slice(0, 10));
+    } else {
+      const filtered = listResumes.filter((item) => item.status === value);
+      setListResumesFilter(filtered);
+    }
+  };
+
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListResumesFilter(listResumes.slice(10 * (e - 1), e * 10));
   };
 
   return (
@@ -32,12 +44,13 @@ const ManageResume = () => {
       <div className="manage-cv__top">
         <p>Lọc theo:</p>
         <Select
-          defaultValue="New"
+          defaultValue="All"
           style={{
             width: 120,
           }}
           onChange={handleChange}
           options={[
+            { value: "All", label: "All" },
             { value: "New", label: "New" },
             { value: "Approved", label: "Approved" },
             { value: "Rejected", label: "Rejected" },
@@ -88,7 +101,14 @@ const ManageResume = () => {
             <p>Không tìm thấy dữ liệu</p>
           )}
         </tbody>
-      </table>
+      </table>      
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listResumes.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
     </div>
   );
 };

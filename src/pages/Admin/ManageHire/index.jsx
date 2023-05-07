@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Input, Select, DatePicker } from "antd";
+import { Button, Modal, Input, Select, DatePicker, Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { GetListCareersAction } from "./../../../redux/reducers/admin/manageCareerReducer";
 import "./style.scss";
@@ -22,9 +22,10 @@ const ManageHire = () => {
   );
   const [listCareerClone, setListCareerClone] = useState([]);
   useEffect(() => {
-    setListCareerClone(listCareers);
+    setListCareerClone(listCareers.slice(0, 10));
   }, [listCareers]);
-  
+
+  const [current, setCurrent] = useState(1);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [careerCreate, setCareerCreate] = useState({
@@ -80,6 +81,11 @@ const ManageHire = () => {
     }, 3000);
   };
 
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListCareerClone(listCareers.slice(10 * (e - 1), e * 10));
+  };
+
   return (
     <div className="manage-hire">
       <div className="manage-hire__top">
@@ -115,6 +121,14 @@ const ManageHire = () => {
             })}
         </tbody>
       </table>
+
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listCareers.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
 
       <Modal
         open={open}

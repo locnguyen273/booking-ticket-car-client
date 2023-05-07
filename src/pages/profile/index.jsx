@@ -22,7 +22,7 @@ const Profile = () => {
 
   const handleUpdateProfile = () => {
     const newProfile = {
-      username: profile.username,
+      name: profile.name,
       phoneNumber: profile.phoneNumber,
       email: profile.email,
       city: profile.city,
@@ -41,9 +41,9 @@ const Profile = () => {
         <div className="profile__form__item">
           <p>Họ và tên:</p>
           <Input
-            placeholder={profile.username}
-            name="username"
-            value={profile.username}
+            placeholder={profile.name}
+            name="name"
+            value={profile.name}
             onChange={handleChangeProfile}
           />
         </div>

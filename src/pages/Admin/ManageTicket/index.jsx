@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { Button, Pagination } from "antd";
 import { GetOneTicketDetailAction } from "../../../redux/reducers/admin/manageTicketReducer";
 import "./style.scss";
 import { GetListTicketAction } from './../../../redux/reducers/admin/manageTicketReducer';
@@ -16,10 +16,21 @@ const ManageTicket = () => {
   const listTicket = useSelector(
     (state) => state.ManageTicketReducer.listTicket
   );
+  const [listTicketClone, setListTicketClone] = useState([]);
+  const [current, setCurrent] = useState(1);
+
+  useEffect(() => {
+    setListTicketClone(listTicket.slice(0,10));
+  },[listTicket]);
 
   const handleViewDetailTicket = (ticketId) => {
     dispatch(GetOneTicketDetailAction(ticketId));
     navigate(`/admin/manage-ticket/${ticketId}`);
+  };
+
+  const handleChangeSliceCareerList = (e) => {
+    setCurrent(e);
+    setListTicketClone(listTicket.slice(10 * (e - 1), e * 10));
   };
 
   return (
@@ -35,8 +46,8 @@ const ManageTicket = () => {
           </tr>
         </thead>
         <tbody>
-          {listTicket.length > 0 &&
-            listTicket.map((item) => {
+          {listTicketClone.length > 0 &&
+            listTicketClone.map((item) => {
               return (
                 <tr key={item.id}>
                   <td>{item.fullname}</td>
@@ -53,6 +64,13 @@ const ManageTicket = () => {
             })}
         </tbody>
       </table>
+      <div className="bus-info__pagination">
+        <Pagination
+          current={current}
+          total={listTicket.length}
+          onChange={handleChangeSliceCareerList}
+        />
+      </div>
     </div>
   );
 };

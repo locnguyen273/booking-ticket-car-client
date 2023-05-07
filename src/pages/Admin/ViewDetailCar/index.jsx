@@ -49,9 +49,10 @@ const ViewDetailCar = () => {
       toltalRow: Number(carDetailClone.toltalRow),
       totalColumn: Number(carDetailClone.totalColumn),
       numberOfFloor: Number(carDetailClone.numberOfFloor),
-      isActive: stateActive,
+      isActive: Boolean(stateActive),
       phoneNumber: carDetailClone.phoneNumber,
     };
+    console.log(newData);
     dispatch(UpdateOneCarAction(carDetail.id, newData));
   };
 
