@@ -47,6 +47,12 @@
           margin: 0 5px 0 0;
         }
       }
+      &--dropdown-user {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 0 10px;
+      }
     }
     .fas {
       color: #fff;
@@ -66,7 +72,7 @@
     }
     &__left {
       &--logo {
-        width: 188px !important;
+        width: 110px !important;
       }
     }
     &__center {
@@ -81,7 +87,7 @@
         white-space: nowrap;
         line-height: 18px;
         letter-spacing: 0.5px;
-        transition: all .3s ease-in-out;
+        transition: all 0.3s ease-in-out;
         &:hover {
           color: #ec2029;
         }
@@ -91,7 +97,7 @@
       }
     }
   }
-  &-mobile__center--item{
+  &-mobile__center--item {
     text-transform: uppercase;
     display: block;
     font-size: 18px;

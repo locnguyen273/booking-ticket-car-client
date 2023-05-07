@@ -1,56 +1,100 @@
-import React from "react"
-import { Form, Button, Input, Checkbox } from "antd";
+import React from "react";
+import { Form, Button, Input, Select } from "antd";
 import "./style.scss";
+import { useDispatch } from "react-redux";
+import { CallApiRegisterUser } from "./../../redux/reducers/userReducer";
+
+const { Option } = Select;
 
 const Register = () => {
-  const onFinish = values => {
-    console.log('Success:', values);
+  const dispatch = useDispatch();
+  const onFinish = (values) => {
+    dispatch(CallApiRegisterUser(values));
   };
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   return (
-    <div className="register-page">
-      <div className="register-box">
-        <div className="illustration-wrapper">
-          <img src="https://phongcachviettravel.vn/wp-content/uploads/2022/04/TP-HCM-PHU-QUOC-3N2D-he-2023-web.jpg" alt="register" />
-        </div>
+    <div className="register">
+      <div className="register__container">
         <Form
           name="register-form"
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <p className="form-title">Welcome back</p>
-          <p>Register to the Dashboard</p>
+          <p className="register__title">Đăng Ký</p>
+
+          <Form.Item
+            name="name"
+            rules={[{ required: true, message: "Please input your name!" }]}
+          >
+            <Input placeholder="Name" />
+          </Form.Item>
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input
-              placeholder="Username"
-            />
+            <Input placeholder="Username" />
           </Form.Item>
-
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password
-              placeholder="Password"
-            />
+            <Input.Password placeholder="Password" />
           </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
+          <Form.Item
+            name="IdCard"
+            rules={[{ required: true, message: "Please input your Id Card!" }]}
+          >
+            <Input placeholder="IdCard" />
+          </Form.Item>
+          <Form.Item
+            name="phoneNumber"
+            rules={[
+              { required: true, message: "Please input your phone number!" },
+            ]}
+          >
+            <Input placeholder="Phone Number" />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
+          >
+            <Input placeholder="Email" />
+          </Form.Item>
+          <Form.Item
+            name="city"
+            rules={[{ required: true, message: "Please input your city!" }]}
+          >
+            <Input placeholder="City" />
+          </Form.Item>
+          <Form.Item
+            name="district"
+            rules={[{ required: true, message: "Please input your district!" }]}
+          >
+            <Input placeholder="District" />
+          </Form.Item>
+          <Form.Item name="role">
+            {/* <Typography.Title
+              level={5}
+            >
+              Điểm đi
+            </Typography.Title> */}
+            <Select>
+              <Option value={2}>Tài xế</Option>
+              <Option value={3}>Thành viên</Option>
+            </Select>
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="register-form-button">
-              Đăng ký
-            </Button>
+            <div className="register__button-submit">
+              <Button type="primary" htmlType="submit">
+                Đăng ký
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </div>
@@ -58,4 +102,4 @@ const Register = () => {
   );
 };
 
-export default Register
+export default Register;
